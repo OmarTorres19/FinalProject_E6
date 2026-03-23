@@ -9,10 +9,10 @@
 */
 
 import express from "express";
-import { mostrarFormulario } from "../controllers/formControllers.js"
+import { showForm } from "../controllers/formControllers.js"
 
 const router = express.Router();
 
-router.get("/", mostrarFormulario);
+router.get("/", showForm);
 
 export default router;

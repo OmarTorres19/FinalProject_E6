@@ -30,7 +30,7 @@ import express from "express";
 import path from "path"; //Maneja rutas de archivos (nativo de Node)
 import { fileURLToPath } from "url"; //Convierte URL->ruta de archivo
 
-import formRoutes from "./routes/formRoutes"; //Mis rutas personalizadas
+import formRoutes from "./routes/formRoutes.js"; //Mis rutas personalizadas
 
 // asigna puerto para atender peticiones
 /**

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UFT-8">
+        <title>Validation Forms</title>
+        <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
+    </head>
+
+    <body>
+        <h2>Register</h2>
+        <form id="myForms" aciton="" enctype="application/x-www-form-urlencoded" novalidate>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"
+                    pattern="[a-zA-Z\s]{3,50}"
+                    placeholder="Ej. Edgar Alan Poe" required autofocus>
+            <span class="message" id="error-name"></span>
+
+            <label for="tel">Telephone:</label>
+            <input type="tel" id="tel" name="tel"
+                    pattern="^\(52\)\d{10}$" required
+                    placeholder="(52)5512345678">
+            <span class="message" id="error-tel"></span>
+
+            <label for="email">Email address:</label>
+            <input type="text" id="email" name="email"
+                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                    placeholder="example@email.com" required>
+            <span class="message" id="error-email"></span>
+
+            <div class="btnContainer">
+                <button class="submit" type="submit">Send</button>
+                <button class="reset" type="reset">Clear fields</button>
+            </div>
+        </form>
+
+        <pre id="result"></pre>
+
+        <script src="../js/validateFormB.js"></script>
+
+    </body>
+</html>

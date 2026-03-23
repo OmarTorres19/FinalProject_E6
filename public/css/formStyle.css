@@ -1,0 +1,235 @@
+/*
+Formualrio Batifamilia - Gotham City
+Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 10%)
+*/
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial Black', Arial, 'Batman Forever', sans-serif;
+}
+
+/* BODY - Fondo Gotham Nocturno (60% Negro) */
+body {
+    background: linear-gradient(135deg, #1C2526 0%, #0F1419 100%);
+    color: #FDB813; /* Amarillo Batman 10% */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 400px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* LOGO BATMAN CENTRAL
+body::before {
+    content: '';
+    background-image: url('https://imgs.search.brave.com/WKP3HhUQizlUzJ2dMSeUjVX0CHl_xIVX9OunWXYu3AA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bG9nb2Rlc2lnbi5v/cmcvd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDgvaW1hZ2Ut/MTAucG5n');
+    background-size: 120px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.8;
+    z-index: 1;
+}
+
+ [image:100] */
+
+/* TITULO BATIFAMILIA */
+h2 {
+    margin-bottom: 30px;
+    color: #FDB813; /* Amarillo 10% */
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: 900;
+    text-shadow: 
+        0 0 10px #FDB813,
+        2px 2px 4px #1C2526;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+}
+
+h2::after {
+    content: '🦇';
+    display: block;
+    font-size: 1.2em;
+    margin-top: 5px;
+}
+
+/* FORMULARIO - CAPA DE GOTHAM (30% Gris) */
+form {
+    background: linear-gradient(145deg, #36454F, #2A3440);
+    padding: 35px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(253,184,19,0.1);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #1C2526;
+    position: relative;
+    z-index: 2;
+}
+
+/* LABEL - Texto Batman */
+label {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #FDB813;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* INPUTS - Campos Nocturnos */
+input {
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 2px solid #1C2526;
+    background: rgba(255,255,255,0.05);
+    color: #FDB813;
+    font-size: 16px;
+    transition: all 0.4s ease;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+input::placeholder {
+    color: rgba(253,184,19,0.6);
+}
+
+/* FOCUS - Efecto Batseñal */
+input:focus {
+    outline: none;
+    border-color: #FDB813;
+    box-shadow: 
+        0 0 20px rgba(253,184,19,0.4),
+        inset 0 1px 0 rgba(253,184,19,0.2);
+    background: rgba(253,184,19,0.1);
+    transform: scale(1.02);
+}
+
+/* VALIDACIONES VISUALES */
+.valid {
+    border-color: #00FF41 !important; /* Verde Batfamilia */
+    box-shadow: 0 0 15px rgba(0,255,65,0.4) !important;
+    background: rgba(0,255,65,0.1) !important;
+}
+
+.invalid {
+    border-color: #FF0040 !important; /* Rojo Joker */
+    box-shadow: 0 0 15px rgba(255,0,64,0.4) !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* MENSAJES DE ERROR */
+.message {
+    color: #FF4757;
+    font-size: 13px;
+    min-height: 18px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* BOTONES BATIFAMILIA */
+.btnContainer {
+    margin-top: 25px;
+    display: flex;
+    gap: 12px;
+}
+
+button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(253,184,19,0.3), transparent);
+    transition: 0.5s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* BOTÓN ENVIAR - Amarillo Batman (10%) */
+.submit {
+    background: linear-gradient(145deg, #FDB813, #FDC02E);
+    color: #1C2526;
+    box-shadow: 0 8px 20px rgba(253,184,19,0.4);
+}
+
+.submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(253,184,19,0.6);
+}
+
+/* BOTÓN RESET - Gris Batman (30%) */
+.reset {
+    background: linear-gradient(145deg, #36454F, #2A3440);
+    color: #FDB813;
+    border: 2px solid #1C2526;
+}
+
+.reset:hover {
+    background: linear-gradient(145deg, #4A5A6A, #3D4A55);
+    color: #FDB813;
+}
+
+/* RESULTADO */
+#result {
+    margin-top: 20px;
+    background: rgba(28,37,38,0.9);
+    color: #FDB813;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: monospace;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #FDB813;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    form { padding: 25px; }
+    h2 { font-size: 1.8em; }
+    .btnContainer { flex-direction: column; gap: 10px; }
+}
+
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    form { padding: 20px; max-width: 100%; }
+    h2 { font-size: 1.5em; }
+}
