@@ -26,22 +26,6 @@ body {
     overflow: hidden;
 }
 
-/* LOGO BATMAN CENTRAL
-body::before {
-    content: '';
-    background-image: url('https://imgs.search.brave.com/WKP3HhUQizlUzJ2dMSeUjVX0CHl_xIVX9OunWXYu3AA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bG9nb2Rlc2lnbi5v/cmcvd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDgvaW1hZ2Ut/MTAucG5n');
-    background-size: 120px;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.8;
-    z-index: 1;
-}
-
- [image:100] */
-
 /* TITULO BATIFAMILIA */
 h2 {
     margin-bottom: 30px;
@@ -122,7 +106,7 @@ input:focus {
 
 /* VALIDACIONES VISUALES */
 .valid {
-    border-color: #00FF41 !important; /* Verde Batfamilia */
+    border-color: #00FF41 !important; /* BatiVerde */
     box-shadow: 0 0 15px rgba(0,255,65,0.4) !important;
     background: rgba(0,255,65,0.1) !important;
 }
