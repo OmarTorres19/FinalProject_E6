@@ -51,7 +51,7 @@ const app = express() //Instancia de clase express -> Objeto app
 app.use(express.json()); //Función Middleware incorporada de Express
 
 //Procesa formularios HTML.
-app.use(express.urlencoded({extended: true})); //extended:true - permite objetos anidados en formularios
+app.use(express.urlencoded({ extended: true })); //extended:true - permite objetos anidados en formularios
 //<form name="Juan&age=25> → req.body = {name: "Juan", age: "25"}
 
 
@@ -68,9 +68,43 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/", formRoutes);
 
 
+//Post
+app.post('/api/join_batfamily', (req, res) => {
+   const { name, tel, email } = req.body;
+
+   //validación con el servidor
+   if (!name || !tel || !email) {
+      return res.status(400).json({
+         success: false,
+         message: 'All fields must be filled.'
+      });
+   }
+
+
+   //Simula procesamiento en la BatFamily
+   const batMember = {
+      name,
+      tel,
+      email,
+      batsuit: 'Robin level',
+      mission: 'Gotham recon',
+      status: 'Approved'
+   };
+
+   console.log('New BatMember: ', batMember);
+
+   res.json({
+      success: true,
+      message: `Welcome to the BatFamily, ${name}!`,
+      member: batMember,
+      secretBase: 'http://batcave.gotham/access'
+   });
+})
+
+
 //Asociamos puerto con el servidor
 app.listen(port, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${port}`);
+   console.log(`Servidor ejecutándose en http://localhost:${port}`);
 })
 
 
