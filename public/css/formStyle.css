@@ -8,12 +8,17 @@ Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial Black', Arial, 'Batman Forever', sans-serif;
+    font-family: 'Arial Black', 'Impact', Arial, 'Batman Forever', sans-serif;
 }
 
 /* BODY - Fondo Gotham Nocturno (60% Negro) */
 body {
-    background: linear-gradient(135deg, #1C2526 0%, #0F1419 100%);
+    /* Patrón tipo malla tipo kevlar para traje de Batman*/
+    background:
+        radial-gradient(circle at 25% 25%, #1C2526 2px, transparent 2px), /* Malla negra principal */
+        radial-gradient(circle at 75% 75%, #1C2526 2px, transparent 2px),
+        linear-gradient(135deg, #1C2526 0%, #0f1419 50%, #1C2526 100%); /* Gradiente nocturno en Gotham */
+    background-size: 60px 60px, 60px 60px, 100% 100%;
     color: #FDB813; /* Amarillo Batman 10% */
     display: flex;
     flex-direction: column;
@@ -23,7 +28,13 @@ body {
     min-width: 400px;
     padding: 20px;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    animation: batmanSuit 20s linear infinite; /* Animación del patrón */
+}
+
+@keyframes batmanSuit {
+    0% { background-position: 0 0, 0 0, 0 0; }
+    100% { background-position: 60px 60px, -60px -60px, 0 0; }
 }
 
 /* TITULO BATIFAMILIA */
