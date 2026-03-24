@@ -15,3 +15,34 @@ const __dirname = path.dirname(__filename);
 export const showForm = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/formVIJS.html"));
 };
+
+export const showValidate = (req, res) => {
+    const { name, tel, email } = req.body;
+
+    //validación con el servidor
+    if (!name || !tel || !email) {
+        return res.status(400).json({
+            success: false,
+            message: 'All fields must be filled.'
+        });
+    }
+
+    //Simula procesamiento en la BatFamily
+    const batMember = {
+        name,
+        tel,
+        email,
+        batsuit: 'Robin level',
+        mission: 'Gotham recon',
+        status: 'Approved'
+    };
+
+    console.log('New BatMember: ', batMember);
+
+    res.json({
+        success: true,
+        message: `Welcome to the BatFamily, ${name}!`,
+        member: batMember,
+        secretBase: 'http://batcave.gotham/access'
+    });
+};

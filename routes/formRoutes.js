@@ -10,9 +10,12 @@
 
 import express from "express";
 import { showForm } from "../controllers/formControllers.js"
+import { showValidate } from "../controllers/formControllers.js";
 
 const router = express.Router();
 
 router.get("/", showForm);
+
+router.post("/", showValidate);
 
 export default router;

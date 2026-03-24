@@ -55,8 +55,8 @@ app.use(express.urlencoded({ extended: true })); //extended:true - permite objet
 //<form name="Juan&age=25> → req.body = {name: "Juan", age: "25"}
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url); // toma toda la ruta y el nombre del archivo .../index.js
+const __dirname = path.dirname(__filename);        // toma solo la ruta .../Torres_WebApp
 //                path.join(__dirname, "public") → /ruta/al/proyecto/public
 
 
@@ -65,41 +65,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 
 //Rutas
-app.use("/", formRoutes);
-
-
-//Post
-app.post('/api/join_batfamily', (req, res) => {
-   const { name, tel, email } = req.body;
-
-   //validación con el servidor
-   if (!name || !tel || !email) {
-      return res.status(400).json({
-         success: false,
-         message: 'All fields must be filled.'
-      });
-   }
-
-
-   //Simula procesamiento en la BatFamily
-   const batMember = {
-      name,
-      tel,
-      email,
-      batsuit: 'Robin level',
-      mission: 'Gotham recon',
-      status: 'Approved'
-   };
-
-   console.log('New BatMember: ', batMember);
-
-   res.json({
-      success: true,
-      message: `Welcome to the BatFamily, ${name}!`,
-      member: batMember,
-      secretBase: 'http://batcave.gotham/access'
-   });
-})
+app.use("/", formRoutes); // ./routes/formRoutes.js
 
 
 //Asociamos puerto con el servidor

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset="UFT-8">
+        <meta charset="UTF-8">
         <title>Validation Forms</title>
         <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
     </head>
@@ -18,14 +18,14 @@
 
             <label for="tel">Telephone:</label>
             <input type="tel" id="tel" name="tel"
-                    pattern="^\(52\)[0-9\s\-]{10,13}$" required
+                    pattern="^\(52\)[0-9\s \-]{10,13}$" required
                     placeholder="Ej. (52) 55 1234 5678"
                     title="Format: (52) + 10 digits (spaces/hyphen optional)">
             <span class="message" id="error-tel"></span>
 
             <label for="email">Email address:</label>
             <input type="text" id="email" name="email"
-                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,35}$"
+                    pattern="^[a-zA-Z0-9._%+ \-]+@[a-zA-Z0-9. \-]+\.[a-zA-Z]{2,35}$"
                     placeholder="example@email.com" required>
             <span class="message" id="error-email"></span>
 

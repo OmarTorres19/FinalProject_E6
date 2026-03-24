@@ -8,6 +8,7 @@ function validateField(id) {
 
     if (!input || !error) return true;
 
+    //limpia el texto en error y los parámetros de cada text box
     error.textContent = "";
     input.classList.remove("valid", "invalid");
 
@@ -74,7 +75,7 @@ form.addEventListener("submit", async function (e) {
     try {
         const data = Object.fromEntries(new FormData(form));
 
-        const response = await fetch('/api/join-batfamily', {
+        const response = await fetch('/', {
             method: 'POST',  //método HTTP
             headers: {
                 'Content-Type': 'application/json',
