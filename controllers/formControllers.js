@@ -17,13 +17,21 @@ export const showForm = (req, res) => {
 };
 
 export const showValidate = (req, res) => {
-    const { name, tel, email } = req.body;
+    const { name, tel, email, password, passphrase, step } = req.body;
 
     //validación con el servidor
     if (!name || !tel || !email) {
         return res.status(400).json({
             success: false,
             message: 'All fields must be filled.'
+        });
+    }
+
+    if(step == 2) {
+        return res.json({
+            success: true,
+            message: "Registration complete",
+            allData: { name, tel, email, password, passphrase }
         });
     }
 
@@ -37,12 +45,10 @@ export const showValidate = (req, res) => {
         status: 'Approved'
     };
 
-    console.log('New BatMember: ', batMember);
-
     res.json({
         success: true,
-        message: `Welcome to the BatFamily, ${name}!`,
-        member: batMember,
-        secretBase: 'http://batcave.gotham/access'
+        message: "Step 1 Ok"
     });
+
+    console.log('New BatMember: ', batMember);
 };

@@ -228,3 +228,8 @@ button:hover::before {
     form { padding: 20px; max-width: 100%; }
     h2 { font-size: 1.5em; }
 }
+
+
+.hidden {
+    display: none !important;
+}
