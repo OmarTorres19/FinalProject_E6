@@ -12,6 +12,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/*Agregare un almacenamiento en la memoria*/
+const usersByEmail = new Map();
+/**/
+
 export const showForm = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/formVIJS.html"));
 };
