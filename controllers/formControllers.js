@@ -18,6 +18,10 @@ const MASTER_USER = {
     password: "iamthenight" // texto plano para pruebas
 }
 
+export const showLanding = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/home.html")); //Muestra home.html
+}
+
 export const processLogin = async (req, res) => {
     const { email, password } = req.body;
 
@@ -91,11 +95,6 @@ export const getCriminals = (req, res) => {
 
 export const showDashboard = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/dashboard.html"));
-}
-
-
-export const showLanding = (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/html/home.html")); //Muestra home.html
 }
 
 export const showLogin = (req, res) => {

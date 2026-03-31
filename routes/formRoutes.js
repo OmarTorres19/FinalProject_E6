@@ -17,7 +17,6 @@ const router = express.Router();
 router.get("/", showLanding);                // Portada
 router.get("/login", showLogin);             // Pag de login
 router.get("/register", showForm);           // Pag de registro
-router.get("/createaccount", showForm);
 router.get("/dashboard", showDashboard);     // Carga dashb
 router.get("/user", showUser);
 

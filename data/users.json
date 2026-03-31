@@ -14,5 +14,13 @@
     "password": "12345678",
     "question": "favColor",
     "passphrase": "red"
+  },
+  {
+    "name": "Omar",
+    "tel": "(52) 55 1234 5678",
+    "email": "omar@gmail.com",
+    "password": "12345678",
+    "question": "favColor",
+    "passphrase": "red"
   }
 ]
