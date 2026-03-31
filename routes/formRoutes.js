@@ -9,15 +9,14 @@
 */
 
 import express from "express";
-import { showForm } from "../controllers/formControllers.js"
-import { showValidate } from "../controllers/formControllers.js";
+import { showForm, showValidate, showUser } from "../controllers/formControllers.js";
 
 const router = express.Router();
 
-router.get("/createaccount", formVIJS);
-router.post("/createaccount", formVIJS);
+router.get("/createaccount", showForm);
+router.post("/createaccount", showValidate);
 
-router.get("/user", formUser);
-router.post("/user", formUser);
+
+router.get("/user", showUser);
 
 export default router;

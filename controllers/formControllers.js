@@ -20,6 +20,10 @@ export const showForm = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/formVIJS.html"));
 };
 
+export const showUser = (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/html/formUser.html"));
+};
+
 export const showValidate = (req, res) => {
     const { name, tel, email, password, passphrase, step } = req.body;
 

@@ -54,10 +54,15 @@ app.use(express.json()); //Función Middleware incorporada de Express
 app.use(express.urlencoded({ extended: true })); //extended:true - permite objetos anidados en formularios
 //<form name="Juan&age=25> → req.body = {name: "Juan", age: "25"}
 
+app.get("/", (req, res) => {
+  res.redirect("/createaccount");
+});
 
 const __filename = fileURLToPath(import.meta.url); // toma toda la ruta y el nombre del archivo .../index.js
 const __dirname = path.dirname(__filename);        // toma solo la ruta .../Torres_WebApp
 //                path.join(__dirname, "public") → /ruta/al/proyecto/public
+
+
 
 
 //asocia contenido estático. Se ejecuta ANTES que formRoutes
@@ -66,6 +71,8 @@ app.use("/", express.static(path.join(__dirname, "public")));
 
 //Rutas
 app.use("/", formRoutes); // ./routes/formRoutes.js
+
+
 
 
 //Asociamos puerto con el servidor
