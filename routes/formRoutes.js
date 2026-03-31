@@ -9,13 +9,14 @@
 */
 
 import express from "express";
-import { showForm } from "../controllers/formControllers.js"
-import { showValidate } from "../controllers/formControllers.js";
+import { showLanding, showLogin, showForm, processLogin, showValidate } from "../controllers/formControllers.js";
 
 const router = express.Router();
 
-router.get("/", showForm);
-
-router.post("/", showValidate);
+router.get("/", showLanding);                // Portada
+router.get("/login", showLogin);             // Pag de login
+router.get("/register", showForm);           // Pag de registro
+router.post("/api/login", processLogin);
+router.post("/", showValidate);              // Procesa el registro
 
 export default router;

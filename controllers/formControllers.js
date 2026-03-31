@@ -7,10 +7,44 @@
  *   4. Devolver respuesta al cliente. 
  */
 import path from "path";
+import { json } from "stream/consumers";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const MASTER_USER = {
+    email: "batman@gotham.com",
+    password: "iamthenight" // texto plano para pruebas
+}
+
+export const processLogin = (req, res) => {
+    const { email, password } = req.body;
+
+    console.log(`Intentando acceso para ${email}`);
+
+    //lóigca de comparación de identidad
+    if (email === MASTER_USER.email && password === MASTER_USER.password) {
+        return res.json({
+            success: true,
+            message: "Access granted, Bruce. Welcome back.",
+            redirectURL: "/dashboard" //En caso de éxito, nos dirigimos a dashboard
+        });
+    } else {
+        return res.status(401).json({
+            success: false,
+            message: "Identity unverified."
+        });
+    }
+}
+
+
+export const showLanding = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/home.html")); //Muestra home.html
+}
+
+export const showLogin = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/login.html")); //Muestra login.html
+}
 
 export const showForm = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/formVIJS.html"));
@@ -27,7 +61,7 @@ export const showValidate = (req, res) => {
         });
     }
 
-    if(step == 2) {
+    if (step == 2) {
         return res.json({
             success: true,
             message: "Registration complete",
@@ -35,20 +69,10 @@ export const showValidate = (req, res) => {
         });
     }
 
-    //Simula procesamiento en la BatFamily
-    const batMember = {
-        name,
-        tel,
-        email,
-        batsuit: 'Robin level',
-        mission: 'Gotham recon',
-        status: 'Approved'
-    };
-
     res.json({
         success: true,
         message: "Step 1 Ok"
     });
 
-    console.log('New BatMember: ', batMember);
+    console.log('New BatMember scouted: ', name);
 };
