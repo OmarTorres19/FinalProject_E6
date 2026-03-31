@@ -28,9 +28,10 @@ export const processLogin = async (req, res) => {
         const users = JSON.parse(fileData);
 
         //Buscamos si ya existe un usuario con ese email y PW
-        const userFound = users.find(u => u.email === email);
+        const userFound = users.find(u => u.email === email && u.password === password);
+        const isMaster = (email === MASTER_USER.email && password === MASTER_USER.password);
 
-        if (userFound || email === "batman@gotham.com") {
+        if (userFound || isMaster) {
             return res.json({
                 success: true,
                 message: `Welcome back ${userFound ? userFound.name : "Bruce"}.`,
@@ -39,30 +40,16 @@ export const processLogin = async (req, res) => {
         } else {
             return res.status(401).json({
                 success: false,
-                message: "Identity unverified."
+                message: "Identity unverified. Credentials do not match."
             });
         }
     } catch (error) {
-        res.status(500).json({
+        console.error("Login error:", error);
+        return res.status(500).json({
             success: false,
-            message: "Erro accessing Bat-files."
+            message: "Error accessing Bat-files."
         });
     };
-
-
-    //lóigca de comparación de identidad
-    if (email === MASTER_USER.email && password === MASTER_USER.password) {
-        return res.json({
-            success: true,
-            message: "Access granted, Bruce. Welcome back.",
-            redirectURL: "/dashboard" //En caso de éxito, nos dirigimos a dashboard
-        });
-    } else {
-        return res.status(401).json({
-            success: false,
-            message: "Identity unverified."
-        });
-    }
 }
 
 const ARKHAM_DATABASE = [
@@ -115,22 +102,44 @@ export const showLogin = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/login.html")); //Muestra login.html
 }
 
+/*Agregare un almacenamiento en la memoria*/
+const usersByEmail = new Map();
+/**/
+
 export const showForm = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/formVIJS.html"));
 };
 
+export const showUser = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/formUser.html"));
+};
+
 export const showValidate = async (req, res) => {
-    const { name, tel, email, password, passphrase, step } = req.body;
+    const { name, tel, email, password, question, passphrase, step } = req.body;
 
     if (step == 2) {
-
         try {
             // 1. Leemos usuarios actuales
-            const fileData = await fs.readFile(USER_FILE, "utf-8");
-            const users = JSON.parse(fileData);
+            let users = [];
+            try {
+                const fileData = await fs.readFile(USER_FILE, "utf-8");
+                users = JSON.parse(fileData);
+            } catch (error) {
+                // Si el archivo no existe, iniciamos uno desde 0
+                users = [];
+            }
 
-            // 2. Añadimos user
-            users.push({ name, tel, email, password });
+            // 2. Verficamos que no haya duplicados
+            const existingUser = users.find(u => u.email === email);
+            if(existingUser){
+                return res.status(400).json({
+                    success: false,
+                    message: "Identity already on file. Use another email."
+                });
+            }
+
+            // 3. Añadimos user
+            users.push({ name, tel, email, password, question, passphrase });
 
             // 3. Guardamos en archivo
             await fs.writeFile(USER_FILE, JSON.stringify(users, null, 2));
@@ -140,10 +149,11 @@ export const showValidate = async (req, res) => {
                 success: true,
                 message: "Registration complete. Member added to the database."
             });
-        } catch (error) {
+        } catch (error){
+            console.error("Save error:", error);
             return res.status(500).json({
                 success: false,
-                message: "Error saving new memeber."
+                message: "Error saving new member."
             });
         }
     }

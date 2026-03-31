@@ -26,10 +26,14 @@ body {
     justify-content: center;
     min-height: 100vh;
     min-width: 400px;
-    padding: 20px;
+    /*padding: 20px; */
     position: relative;
     overflow-y: auto;
     animation: batmanSuit 20s linear infinite; /* Animación del patrón */
+    /*Tambien agregue esto para que quede mejor en el teléfono*/
+    min-height: 100dvh;
+    overflow-x:hidden;
+    padding: var(--gutter)
 }
 
 @keyframes batmanSuit {
@@ -99,6 +103,45 @@ input {
     width: 100%;
     backdrop-filter: blur(10px);
 }
+
+/**Agregue este bloque**/
+select{
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 2px solid #1C2526;
+    background: rgba(255,255,255,0.05);
+    color: #FDB813;
+    font-size: 16px;
+    width: 100%;
+}
+
+select:focus{
+    outline: none; /*quita el contorno por defecto*/
+    border-color: #FDB813; /*borde en amarillo*/
+    box-shadow: 0 0 20px rgba(253,184,19,0.4); /*resplandor*/
+    background: rgba(253,184,19,0.1); /*fondo para resaltar*/
+}
+
+/*Agregue este bloque para las opciones deplegables*/
+select option{
+    background: #1C2526;
+    color: #FDB813;
+}
+
+/*Este es para la opcion seleccionada*/
+select option:checked{
+  background-color: #36454F; /* gris medio */
+  color: #FDB813;
+}
+
+
+.hint{
+    margin-top: 16px;
+    margin-bottom: 6px;
+    color: rgba(253,184,19,0.9);
+    font-size: 0.95em;
+}
+ /**Checalo para ver si queda mejor **/
 
 input::placeholder {
     color: rgba(253,184,19,0.6);
@@ -179,6 +222,22 @@ button:hover::before {
     left: 100%;
 }
 
+/* Convierte <a> en botón (para links dentro de btnContainer) */
+.link-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* Responsivo btnContainer*/
+@media (max-width: 520px){
+    h2{ font-size: 1.7em; }
+    form{ padding: 22px; }
+    .btnContainer{ flex-direction: column; }
+}
+
+
 /* BOTÓN ENVIAR - Amarillo Batman (10%) */
 .submit {
     background: linear-gradient(145deg, #FDB813, #FDC02E);
@@ -227,6 +286,13 @@ button:hover::before {
     body { padding: 10px; }
     form { padding: 20px; max-width: 100%; }
     h2 { font-size: 1.5em; }
+}
+
+/*Agregue esto para que al girar el telefono mantenga la forma*/
+@media (orientation: landscape) and (max-height: 520px){
+  body{ justify-content: flex-start; }
+  h2{ margin-bottom: 12px; }
+  .page-nav{ margin-bottom: 10px; }
 }
 
 
@@ -294,7 +360,7 @@ button:hover::before {
 /* Contenedor en la foto*/
 .card-image-container {
     width: 100%;
-    height: 250;
+    height: 250px;
     overflow: hidden;
     border-bottom: 2px solid #00FF41;
     position: relative;
@@ -360,4 +426,81 @@ button:hover::before {
 .bat-btn-small:hover {
     background: #00FF41;
     color: #001400;
+}
+/* Navegación entre páginas */
+.page-nav{
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.nav-link{
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    padding: 12px 10px;
+    border-radius: 10px;
+    border: 2px solid #1C2526;
+    background: linear-gradient(145deg, #36454F, #2A3440);
+    color: #FDB813;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.nav-link:hover{
+    filter: brightness(1.08);
+}
+
+.nav-link.active{
+    background: linear-gradient(145deg, #FDB813, #FDC02E);
+    color: #1C2526;
+}
+
+.tab{
+    flex: 1;
+    padding: 12px 10px;
+    border-radius: 10px;
+    border: 2px solid #1C2526;
+    background: linear-gradient(145deg, #36454F, #2A3440);
+    color: #FDB813;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tab.active{
+    background: linear-gradient(145deg, #FDB813, #FDC02E);
+    color: #1C2526;
+}
+
+.panel{
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Texto auxiliar / enlaces debajo del form */
+.helper{
+    margin-top: 14px;
+    font-size: 0.9em;
+    color: rgba(253,184,19,0.85);
+}
+
+.helper a{
+    color: #FDB813;
+}
+
+.helper a:hover{
+    text-decoration: underline;
+}
+
+/*Agregue esto para mantener la misma froma en cualquier pantalla*/
+:root{
+  --container: 520px;
+  --gutter: clamp(12px, 3vw, 24px);
+  --radius: clamp(12px, 2.2vw, 16px);
 }

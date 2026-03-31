@@ -43,6 +43,19 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required>
             <span class="message" id="error-confirmPassword"></span>
 
+            <!-- Aquí estoy agregando las preguntas con la
+             condición de que al usuario se le dan tres opciones
+             ya dependiendo de esas preguntas el pone las respuestas-->
+
+              <label for="question">Security question:</label>
+                <select id="question" name="question" required>
+                    <option value="">Select a question...</option>
+                    <option value="favColor">Favorite color</option>
+                    <option value="petName">Pet's name</option>
+                    <option value="birthYear">Year of birth</option>
+                </select>
+                <span class="message" id="error-question"></span>
+
             <label for="passphrase">Security Batpassphrase</label>
             <input type="text" id="passphrase" name="passphrase" required
                 placeholder="Your secret answer">

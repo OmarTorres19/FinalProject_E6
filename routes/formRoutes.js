@@ -9,7 +9,7 @@
 */
 
 import express from "express";
-import { showLanding, showLogin, showForm, processLogin, showValidate, getCriminals, showDashboard } from "../controllers/formControllers.js";
+import { showLanding, showLogin, showForm, processLogin, showValidate, getCriminals, showDashboard, showUser } from "../controllers/formControllers.js"; 
 
 const router = express.Router();
 
@@ -17,7 +17,10 @@ const router = express.Router();
 router.get("/", showLanding);                // Portada
 router.get("/login", showLogin);             // Pag de login
 router.get("/register", showForm);           // Pag de registro
+router.get("/createaccount", showForm);
 router.get("/dashboard", showDashboard);     // Carga dashb
+router.get("/user", showUser);
+
 
 // APIs
 // Aquí se intercambian datos. Se usa /api para saber que estas rutas NO devuelven HTML

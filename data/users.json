@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "name": "Pocoyo",
+    "tel": "(52) 55 1234 5678",
+    "email": "yoyoyo@gmail.com",
+    "password": "12345678",
+    "question": "birthYear",
+    "passphrase": "2000"
+  },
+  {
+    "name": "Omar",
+    "tel": "(52) 55 1234 5678",
+    "email": "omisaurio@dino.com",
+    "password": "12345678",
+    "question": "favColor",
+    "passphrase": "red"
+  }
+]
