@@ -9,14 +9,23 @@
 */
 
 import express from "express";
-import { showLanding, showLogin, showForm, processLogin, showValidate } from "../controllers/formControllers.js";
+import { showLanding, showLogin, showForm, processLogin, showValidate, getCriminals, showDashboard } from "../controllers/formControllers.js";
 
 const router = express.Router();
 
+// HTML
 router.get("/", showLanding);                // Portada
 router.get("/login", showLogin);             // Pag de login
 router.get("/register", showForm);           // Pag de registro
-router.post("/api/login", processLogin);
-router.post("/", showValidate);              // Procesa el registro
+router.get("/dashboard", showDashboard);     // Carga dashb
+
+// APIs
+// Aquí se intercambian datos. Se usa /api para saber que estas rutas NO devuelven HTML
+router.post("/api/login", processLogin);     // Procesa el intento de entrada
+router.post("/api/validate", showValidate);  // Procesa el registro del ususario
+router.get("/api/criminals", getCriminals);  // Carga DATOS de los criminales
+router.post("/login", (req, res) => {
+   res.redirect("/login?error=js_failed");
+});
 
 export default router;

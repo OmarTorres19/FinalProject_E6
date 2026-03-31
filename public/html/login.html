@@ -10,7 +10,7 @@
 <body>
     <main class="form-container">
         <h2>Access <strong>BatFiles</strong></h2>
-        <form id="loginForm" novalidate>
+        <form id="loginForm" method="POST" novalidate>
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" required>
 
@@ -25,7 +25,11 @@
                 <p>New recruit? <a href="/register" class="bat-link">Create new account</a></p>
             </div>
         </form>
+
+        <p id="result" class="message"></p>
     </main>
+
+    <script src="/js/login.js"></script>
 
 </body>
 
