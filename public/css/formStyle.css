@@ -122,6 +122,19 @@ select:focus{
     background: rgba(253,184,19,0.1); /*fondo para resaltar*/
 }
 
+/*Agregue este bloque para las opciones deplegables*/
+select option{
+    background: #1C2526;
+    color: #FDB813;
+}
+
+/*Este es para la opcion seleccionada*/
+select option:checked{
+  background-color: #36454F; /* gris medio */
+  color: #FDB813;
+}
+
+
 .hint{
     margin-top: 16px;
     margin-bottom: 6px;

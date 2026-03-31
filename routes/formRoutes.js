@@ -14,8 +14,10 @@ import { showValidate } from "../controllers/formControllers.js";
 
 const router = express.Router();
 
-router.get("/", showForm);
+router.get("/createaccount", formVIJS);
+router.post("/createaccount", formVIJS);
 
-router.post("/", showValidate);
+router.get("/user", formUser);
+router.post("/user", formUser);
 
 export default router;
