@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "name": "JOSE JUAN BAZALDUA MONTOYA",
+    "tel": "(52) 5554019990",
+    "email": "juanbazaldua1125@gmail.com",
+    "password": "$2b$10$GDla6YX/ozmlYhCTcuYxieTAEeLmyiLo5F0XnmFPA34oAsKi/ilkm",
+    "question": "birthYear",
+    "passphrase": "$2b$10$GDla6YX/ozmlYhCTcuYxieLSrjGqA2CTi5tzQh8vPShU.24vN24BG"
+  }
+]
