@@ -189,16 +189,22 @@ form.addEventListener("submit", async function (e) {
         console.log("--- BAT-DATA RECOLECTADA ---");
         console.log(resultData.allData); // Aquí se ve el JSON
 
-        result.innerHTML = `<h3 style="color: #00FF41">Welcome to the Bat-Family! Check the console.</h3>`;
+        result.innerHTML = `
+            <h3 style="color: #00FF41">Welcome to the Bat-Family! 🦇</h3>
+              <p style="margin-bottom: 15px;">Your identity has been encrypted and stored.</p>
+              <div class="btnContainer">
+                <a href="/login" class="submit link-btn">GO TO LOGIN</a>
+              </div>
+              <p style="font-size: 0.8em; margin-top: 10px; color: rgba(253,184,19,0.6);">
+                Automatic redirection in 5 seconds...
+              </p>`;
 
         // Volvemos al estado inicial después de 3 segundos
         setTimeout(() => {
-          form.reset();
-          currentStep = 1;
-          document.getElementById('step-2').classList.add('hidden');
-          document.getElementById('step-1').classList.remove('hidden');
-          result.textContent = "";
-        }, 3000);
+          window.location.href = '/login';
+        }, 5000);
+      
+        form.reset();
       }
     } else {
       result.textContent = resultData.message;

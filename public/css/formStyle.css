@@ -432,28 +432,25 @@ button:hover::before {
     width: 100%;
     max-width: 450px;
     display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
+    justify-content: space-between;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
 .nav-link{
-    flex: 1;
-    min-width: 120px;
-    text-align: center;
-    padding: 12px 10px;
-    border-radius: 10px;
-    border: 2px solid #1C2526;
-    background: linear-gradient(145deg, #36454F, #2A3440);
     color: #FDB813;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
     text-decoration: none;
+    font-size: 0.8em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
 }
 
 .nav-link:hover{
-    filter: brightness(1.08);
+    border-bottom: 1px solid #FDB813;
+    text-shadow: 0 0 8px #FDB813;
 }
 
 .nav-link.active{
@@ -503,4 +500,43 @@ button:hover::before {
   --container: 520px;
   --gutter: clamp(12px, 3vw, 24px);
   --radius: clamp(12px, 2.2vw, 16px);
+}
+
+
+/* Estilos para Footers */
+
+.footer-links {
+    margin-top: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* El texto "New recruit?" y otros */
+.footer-links p {
+    color: rgba(253, 184, 19, 0.8); /* Amarillo suave */
+    font-size: 0.9em;
+}
+
+/* Los enlaces <a> específicos */
+.bat-link {
+    color: #FDB813 !important; /* Amarillo Brillante */
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.bat-link:hover {
+    color: #ffffff !important; /* Cambia a blanco al pasar el mouse */
+    text-shadow: 0 0 10px #FDB813; /* Brillo de neón */
+    text-decoration: underline;
+}
+
+/* Ajuste para el cuadro vacío debajo */
+#result {
+    min-height: 20px; /* Evita que se vea colapsado */
+    border: 1px solid rgba(253, 184, 19, 0.2);
 }

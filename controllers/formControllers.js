@@ -170,3 +170,77 @@ export const showValidate = async (req, res) => {
         message: "Step 1 Ok"
     });
 };
+
+
+/* Recuperacao Primero obtenemos la pregunta */
+export const getSecurityQuestion = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const fileData = await fs.readFile(USER_FILE, "utf-8");
+        const users = JSON.parse(fileData);
+        const user = users.find(u => u.email === email);
+
+        if(!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Identity not found in Batcomputer records."
+            });
+        }
+
+        // Devolvemos la pregunta, no la respuesta
+        res.json({
+            success: true,
+            question: user.question
+        });
+    } catch(error) {
+        res.status(500).json({
+            success: false,
+            message: "Error accessing database."
+        });
+    }
+};
+
+export const showForgotPassword = (req, res) => {
+   res.sendFile(path.join(__dirname, "../public/html/forgotPassword.html"));
+};
+
+
+// RECUPERACAO - Validamos y autenticamos
+export const resetPassword = async (req, res) => {
+    const { email, passphrase, newPassword } = req.body;
+
+    try {
+        const fileData = await fs.readFile(USER_FILE, "utf-8");
+        let users = JSON.parse(fileData);
+
+        //busco al usuario por email y passphrase
+        const userIndex = users.findIndex(u => u.email === email && u.passphrase === passphrase);
+
+
+        if (userIndex === -1) {
+            return res.status(401).json({
+                success: false,
+                message: "Security answer incorrect. Access denied"
+            });
+        }
+
+
+        //Actualizamos PW en array
+        users[userIndex].password = newPassword;
+
+        //save
+        await fs.writeFile(USER_FILE, JSON.stringify(users, null, 2));
+
+        res.json({
+            success: true,
+            message: "Security Protocols updated. Use new password."
+        });
+    } catch(error) {
+        console.error("Reset Error: ", error);
+        res.status(500).json({
+            success: false,
+            message: "Error updating protocols."
+        });
+    }
+};
