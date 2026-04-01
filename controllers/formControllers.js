@@ -9,6 +9,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs/promises" //Importamos el módulo de archivo
+import bcrypt from 'bcryptjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,22 +32,36 @@ export const processLogin = async (req, res) => {
         const fileData = await fs.readFile(USER_FILE, "utf-8");
         const users = JSON.parse(fileData);
 
-        //Buscamos si ya existe un usuario con ese email y PW
-        const userFound = users.find(u => u.email === email && u.password === password);
+        //Buscamos el usuario solo por el email
+        const userFound = users.find(u => u.email === email);
         const isMaster = (email === MASTER_USER.email && password === MASTER_USER.password);
 
-        if (userFound || isMaster) {
+        if (isMaster) {
             return res.json({
                 success: true,
-                message: `Welcome back ${userFound ? userFound.name : "Bruce"}.`,
+                message: `Welcome back, Bruce.`,
                 redirectURL: "/dashboard"
             });
-        } else {
-            return res.status(401).json({
-                success: false,
-                message: "Identity unverified. Credentials do not match."
-            });
         }
+
+        if (userFound) {
+            const isMatch = await bcrypt.compare(password, userFound.password);
+
+            if (isMatch) {
+                return res.json({
+                    success: true,
+                    message: `Welcome back ${userFound.name}.`,
+                    redirectURL: "/dashboard"
+                });
+            }
+        }
+
+        // Si no es Batman y no hay match de user, regresamos
+        return res.status(401).json({
+            success: false,
+            message: "Credentials do not match"
+        });
+
     } catch (error) {
         console.error("Login error:", error);
         return res.status(500).json({
@@ -130,15 +145,24 @@ export const showValidate = async (req, res) => {
 
             // 2. Verficamos que no haya duplicados
             const existingUser = users.find(u => u.email === email);
-            if(existingUser){
+            if (existingUser) {
                 return res.status(400).json({
                     success: false,
                     message: "Identity already on file. Use another email."
                 });
             }
 
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            const hashedPassphrase = await bcrypt.hash(passphrase, salt); //cifra respuesta
+
             // 3. Añadimos user
-            users.push({ name, tel, email, password, question, passphrase });
+            users.push({
+                name, tel, email,
+                password: hashedPassword,
+                question,
+                passphrase: hashedPassphrase
+            });
 
             // 3. Guardamos en archivo
             await fs.writeFile(USER_FILE, JSON.stringify(users, null, 2));
@@ -148,7 +172,7 @@ export const showValidate = async (req, res) => {
                 success: true,
                 message: "Registration complete. Member added to the database."
             });
-        } catch (error){
+        } catch (error) {
             console.error("Save error:", error);
             return res.status(500).json({
                 success: false,
@@ -181,7 +205,7 @@ export const getSecurityQuestion = async (req, res) => {
         const users = JSON.parse(fileData);
         const user = users.find(u => u.email === email);
 
-        if(!user) {
+        if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "Identity not found in Batcomputer records."
@@ -193,7 +217,7 @@ export const getSecurityQuestion = async (req, res) => {
             success: true,
             question: user.question
         });
-    } catch(error) {
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Error accessing database."
@@ -202,7 +226,7 @@ export const getSecurityQuestion = async (req, res) => {
 };
 
 export const showForgotPassword = (req, res) => {
-   res.sendFile(path.join(__dirname, "../public/html/forgotPassword.html"));
+    res.sendFile(path.join(__dirname, "../public/html/forgotPassword.html"));
 };
 
 
@@ -215,19 +239,29 @@ export const resetPassword = async (req, res) => {
         let users = JSON.parse(fileData);
 
         //busco al usuario por email y passphrase
-        const userIndex = users.findIndex(u => u.email === email && u.passphrase === passphrase);
+        const userIndex = users.findIndex(u => u.email === email);
 
 
         if (userIndex === -1) {
-            return res.status(401).json({
+            return res.status(404).json({
                 success: false,
-                message: "Security answer incorrect. Access denied"
+                message: "User not found."
             });
         }
 
+        const isPassphraseValid = await bcrypt.compare(passphrase, users[userIndex].passphrase);
+
+        if (!isPassphraseValid) {
+            return res.status(401).json({
+                success: false,
+                message: "Security answer incorrect."
+            });
+        }
+
+        const salt = await bcrypt.genSalt(10);
 
         //Actualizamos PW en array
-        users[userIndex].password = newPassword;
+        users[userIndex].password = await bcrypt.hash(newPassword, salt);
 
         //save
         await fs.writeFile(USER_FILE, JSON.stringify(users, null, 2));
@@ -236,7 +270,7 @@ export const resetPassword = async (req, res) => {
             success: true,
             message: "Security Protocols updated. Use new password."
         });
-    } catch(error) {
+    } catch (error) {
         console.error("Reset Error: ", error);
         res.status(500).json({
             success: false,
