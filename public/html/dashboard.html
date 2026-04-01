@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Batcave Dashboard</title>
+    <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
+</head>
+
+<body>
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Gotham Most Wanted</h1>
+            <p>Accessing Arkham Asylum Criminal Files...</p>
+        </header>
+
+        <div id="criminal-grid" class="criminal-grid">
+        </div>
+    </main>
+
+    <script>
+        async function loadCriminals() {
+            const grid = document.getElementById('criminal-grid');
+
+            try {
+                const response = await fetch('/api/criminals');
+                const criminals = await response.json();
+
+                // Dibujamos cada tarjeta usando Template Literals
+                grid.innerHTML = criminals.map(villain => `
+                <div class="criminal-card">
+                    <div class="card-image-container">
+                        <img src="${villain.image}" alt="${villain.alias}">
+                    </div>
+                    <div class="card-content">
+                        <h3>${villain.alias}</h3>
+                        <p><strong>Real Name:</strong> ${villain.name}</p>
+                        <p>${villain.description}</p>
+                        <p><strong>Danger:</strong> <span style="color: red">${villain.dangerLevel}</span></p>
+                        <button class="bat-btn-small">View Full Dossier</button>
+                    </div>
+                </div>
+            `).join('');
+
+            } catch (error) {
+                grid.innerHTML = `<p class="error">System Breach: Could not retrieve data.</p>`;
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.onload = loadCriminals;
+    </script>
+</body>
+
+</html>

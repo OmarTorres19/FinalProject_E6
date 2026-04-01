@@ -171,7 +171,7 @@ form.addEventListener("submit", async function (e) {
         const data = Object.fromEntries(new FormData(form));
         data.step = currentStep; //Decimos en qué paso vamos
 
-        const response = await fetch('/', {
+        const response = await fetch('/api/validate', {
             method: 'POST',  //método HTTP
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)

@@ -25,7 +25,6 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    min-width: 400px;
     /*padding: 20px; */
     position: relative;
     overflow-y: auto;
@@ -377,4 +376,147 @@ button:hover::before {
   --container: 520px;
   --gutter: clamp(12px, 3vw, 24px);
   --radius: clamp(12px, 2.2vw, 16px);
+}
+/* ------------------------------ESTILOS DASHBOARD------------------------------ */
+
+/* Contenedor principal */
+.dashboard-container {
+    padding: 40px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título del card */
+.dashboard-header {
+    font-family: 'Courier New', Courier, monospace;
+    color: #00FF41;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 50px;
+    text-shadow: 0 0 10px #00FF41;
+}
+
+/* Criminal Grid */
+.criminal-grid {
+    display: flex;
+    flex-wrap: wrap; /* Responsive */
+    gap: 30px;
+    justify-content: center; /* Centrar tarjetas */
+    width: 100%;
+}
+
+/* Card individual */
+.criminal-card {
+    background: rgba(0, 20, 0, 0.8);
+    border: 2px solid #00FF41;
+    border-radius: 41px;
+    color: #00FF41;
+    overflow: hidden; /* Corta la imag si se sale */
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+
+    /* Efectos en Flexbox*/
+    flex: 1 1 300px;
+    max-width: 400px;
+
+    /* flexbox intero - para alinear contenido*/
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.criminal-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+}
+
+/* Contenedor en la foto*/
+.card-image-container {
+    width: 100%;
+    height: 250;
+    overflow: hidden;
+    border-bottom: 2px solid #00FF41;
+    position: relative;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajustamos la foto */
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg) contrast(1.2); /* Efecto de nightvision*/
+}
+
+/* Efecto retro hacking*/
+.card-image-container::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: rgba(0, 255, 65, 0.8);
+    box-shadow: 0 0 10px #00FF41;
+    animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* Contenido del texto de la tarjeta */
+.card-content {
+    padding: 20px;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-content h3 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: rgba(0, 255, 65, 0.8);
+    margin-bottom: 15px;
+}
+
+/* Botón de VerArchivoCompleto */
+.bat-btn-small {
+    background: transparent;
+    border: 1px solid #00FF41;
+    color: #00FF41;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: monospace;
+}
+
+.bat-btn-small:hover {
+    background: #00FF41;
+    color: #001400;
+}
+
+/* Links debajo del botón (New recruit / Forgot password) */
+.footer-links{
+  margin-top: 16px;      /* separa del botón UNLOCK */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;              /* espacio entre líneas */
+  align-items: center;
+}
+
+.footer-links p{
+  margin: 0;             /* quita margen default del <p> */
+}
+
+.footer-links a{
+  margin-left: 8px;      /* separa texto y link en la misma línea */
 }
