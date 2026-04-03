@@ -10,5 +10,21 @@
     "tel": "(52) 55 1234 5678",
     "email": "v@v.com",
     "password": "scarlett"
+  },
+  {
+    "name": "karen",
+    "tel": "(52) 55 49814771 ",
+    "email": "k@k.com",
+    "password": "$2b$10$o3r1.xPeNgZTQDrPBghkcugNu9IWKIOknWun3ESsnI80o9smAV7GK",
+    "question": "petName",
+    "passphrase": "$2b$10$95LelkY2mHpSThRd1W.HheKzNaJnR3.JlVWOkgn.3qzpgeQY5AXgq"
+  },
+  {
+    "name": "roy",
+    "tel": "(52) 55 49814771 ",
+    "email": "k@klo.co",
+    "password": "$2b$10$X8t9f46NXt/NOQYy6pIBl.HDZm1m/mew3vJW8kCdyv4n.61JoI8gC",
+    "question": "favColor",
+    "passphrase": "$2b$10$X8t9f46NXt/NOQYy6pIBl.53mX9ZoJiGAntCXsUZnHnBvAWCxGIsy"
   }
 ]

@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Batcave Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
 </head>
 
 <body>
-    <main class="dashboard-container">
-        <header class="dashboard-header">
+    <main class= "wide-container">
+        <header class="hero">
             <h1>Gotham Most Wanted</h1>
             <p>Accessing Arkham Asylum Criminal Files...</p>
         </header>
 
-        <div id="criminal-grid" class="criminal-grid">
-        </div>
+        <section id="criminal-grid" class="criminal-grid" aria-label="criminal dossiers">
+        </section>
     </main>
 
     <script>
@@ -28,18 +29,20 @@
 
                 // Dibujamos cada tarjeta usando Template Literals
                 grid.innerHTML = criminals.map(villain => `
-                <div class="criminal-card">
-                    <div class="card-image-container">
+                <article class="card">
+                    <div class="card-media">
                         <img src="${villain.image}" alt="${villain.alias}">
                     </div>
-                    <div class="card-content">
+                    <div class="card-body">
+                        <span class="chip">DANGER: ${villain.dangerLevel}</span>
                         <h3>${villain.alias}</h3>
                         <p><strong>Real Name:</strong> ${villain.name}</p>
                         <p>${villain.description}</p>
-                        <p><strong>Danger:</strong> <span style="color: red">${villain.dangerLevel}</span></p>
-                        <button class="bat-btn-small">View Full Dossier</button>
+                        <div class="card-actions">
+                            <a class="link-btn" href="#" onclick="return false;">View Full Dossier</a>
+                        </div>
                     </div>
-                </div>
+                </article>
             `).join('');
 
             } catch (error) {

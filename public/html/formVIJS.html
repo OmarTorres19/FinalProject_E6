@@ -3,12 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validation Forms</title>
     <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
 </head>
 
 <body>
+    <main class="form-container">
     <h2>Join the <strong>Bat-Family</strong> 🦇</h2>
+
 
     <form id="myForms" action="" enctype="application/x-www-form-urlencoded" novalidate>
         <div id="step-1">
@@ -26,6 +29,10 @@
             <input type="text" id="email" name="email" pattern="^[a-zA-Z0-9._%+ \-]+@[a-zA-Z0-9. \-]+\.[a-zA-Z]{2,35}$"
                 placeholder="example@email.com" required>
             <span class="message" id="error-email"></span>
+            
+            <ul id="inline-popups">
+            <li><a href="#test-popup" data-effect="mfp-zoom-out"></a></li>
+            </ul>           
 
             <div class="btnContainer">
                 <button class="submit" type="submit">Next</button>

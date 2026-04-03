@@ -2,164 +2,195 @@
 Formualrio Batifamilia - Gotham City
 Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 10%)
 */
+:root{
+  /* Layout */
+  --container: 520px;
+  --container-wide: 1200px;
+  --gutter: clamp(12px, 3vw, 24px);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --gap: 12px;
+
+  /* Typography */
+  --font-ui: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: "Arial Black", Impact, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+
+  --fs-base: 16px;
+  --fs-label: 0.95rem;
+  --fs-h1: clamp(1.9rem, 4vw, 2.6rem);
+  --fs-h2: clamp(1.6rem, 3.5vw, 2.2rem);
+
+  /* Color tokens (Batman default) */
+  --bg: #1C2526;
+  --bg-2: #0f1419;
+  --surface: #36454F;
+  --surface-2: #2A3440;
+  --border: #1C2526;
+
+  --accent: #FDB813;
+  --accent-2: #FDC02E;
+  --text: #FDB813;
+  --text-muted: rgba(253,184,19,0.82);
+  --text-on-accent: #1C2526;
+  --error: #FF4757;
+  --success: #00FF41;
+  --danger: #FF0040;
+
+  /* Effects */
+  --shadow-lg: 0 20px 40px rgba(0,0,0,0.60);
+  --glow: 0 0 20px rgba(253,184,19,0.38);
+}
 
 /* RESET */
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial Black', 'Impact', Arial, 'Batman Forever', sans-serif;
+
 }
 
+
+
 /* BODY - Fondo Gotham Nocturno (60% Negro) */
+
 body {
     /* Patrón tipo malla tipo kevlar para traje de Batman*/
     background:
-        radial-gradient(circle at 25% 25%, #1C2526 2px, transparent 2px), /* Malla negra principal */
-        radial-gradient(circle at 75% 75%, #1C2526 2px, transparent 2px),
-        linear-gradient(135deg, #1C2526 0%, #0f1419 50%, #1C2526 100%); /* Gradiente nocturno en Gotham */
+        radial-gradient(circle at 25% 25%, var(--bg) 2px, transparent 2px), /* Malla negra principal */
+        radial-gradient(circle at 75% 75%, var(--bg) 2px, transparent 2px),
+        linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%); /* Gradiente nocturno en Gotham */
     background-size: 60px 60px, 60px 60px, 100% 100%;
-    color: #FDB813; /* Amarillo Batman 10% */
+    animation: batSuit 20s linear infinite;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
+    /*min-width: 400px; // lo quite para que peuda funcionar en panatalals pequea;s
     /*padding: 20px; */
     position: relative;
     overflow-y: auto;
-    animation: batmanSuit 20s linear infinite; /* Animación del patrón */
-    /*Tambien agregue esto para que quede mejor en el teléfono*/
     min-height: 100dvh;
     overflow-x:hidden;
     padding: var(--gutter)
 }
 
-@keyframes batmanSuit {
-    0% { background-position: 0 0, 0 0, 0 0; }
-    100% { background-position: 60px 60px, -60px -60px, 0 0; }
+@keyframes batSuit{
+  0%{ background-position: 0 0, 0 0, 0 0; }
+  100%{ background-position: 60px 60px, -60px -60px, 0 0; }
 }
+
+
+a{ color: var(--accent); text-decoration:none; }
+a:visited{ color: var(--accent); }
+a:hover{ text-decoration: underline; }
 
 /* TITULO BATIFAMILIA */
-h2 {
-    margin-bottom: 30px;
-    color: #FDB813; /* Amarillo 10% */
-    text-align: center;
-    font-size: 2.2em;
-    font-weight: 900;
+
+h1, h2 {
+    font-family: var(--font-display);
     text-shadow: 
-        0 0 10px #FDB813,
-        2px 2px 4px #1C2526;
+        0 0 10px var(--accent),
+        2px 2px 4px var(--bg);
     letter-spacing: 2px;
-    position: relative;
-    z-index: 2;
 }
 
-h2::after {
-    content: '🦇';
-    display: block;
-    font-size: 1.2em;
-    margin-top: 5px;
-}
+h1{ font-size: var(--fs-h1); margin-bottom: 10px; }
+h2{ font-size: var(--fs-h2); margin-bottom: 22px; }
+
+main{ width: 100%; }
+
 
 /* FORMULARIO - CAPA DE GOTHAM (30% Gris) */
 form {
-    background: linear-gradient(145deg, #36454F, #2A3440);
-    padding: 35px;
-    border-radius: 15px;
+    background: linear-gradient(145deg, var(--surface), var(--surface-2));
+    padding: 32px;
+    border-radius: var(--radius-lg);
     width: 100%;
     max-width: 450px;
-    box-shadow: 
-        0 20px 40px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(253,184,19,0.1);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.06);
     display: flex;
     flex-direction: column;
-    border: 2px solid #1C2526;
-    position: relative;
-    z-index: 2;
+    border: 2px solid var(--border);
+}
+
+.form-container{
+  width: 100%;
+  max-width: var(--container);
+  margin-top: clamp(12px, 7vh, 64px);
 }
 
 /* LABEL - Texto Batman */
 label {
-    margin-top: 15px;
+    margin-top: 14px;
     margin-bottom: 8px;
-    font-weight: 700;
-    color: #FDB813;
-    font-size: 0.95em;
+    color: var(--text);
+    font-size: var(--fs-label);
+    font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 /* INPUTS - Campos Nocturnos */
-input {
-    padding: 14px 16px;
-    border-radius: 8px;
-    border: 2px solid #1C2526;
-    background: rgba(255,255,255,0.05);
-    color: #FDB813;
-    font-size: 16px;
-    transition: all 0.4s ease;
-    width: 100%;
-    backdrop-filter: blur(10px);
-}
 
-/**Agregue este bloque**/
-select{
-    padding: 14px 16px;
-    border-radius: 8px;
-    border: 2px solid #1C2526;
-    background: rgba(255,255,255,0.05);
-    color: #FDB813;
-    font-size: 16px;
-    width: 100%;
+input, select{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font-size: var(--fs-base);
+  transition: all .25s ease;
 }
-
-select:focus{
-    outline: none; /*quita el contorno por defecto*/
-    border-color: #FDB813; /*borde en amarillo*/
-    box-shadow: 0 0 20px rgba(253,184,19,0.4); /*resplandor*/
-    background: rgba(253,184,19,0.1); /*fondo para resaltar*/
-}
-
-/*Agregue este bloque para las opciones deplegables*/
-select option{
-    background: #1C2526;
-    color: #FDB813;
-}
-
-/*Este es para la opcion seleccionada*/
-select option:checked{
-  background-color: #36454F; /* gris medio */
-  color: #FDB813;
-}
-
-
-.hint{
-    margin-top: 16px;
-    margin-bottom: 6px;
-    color: rgba(253,184,19,0.9);
-    font-size: 0.95em;
-}
- /**Checalo para ver si queda mejor **/
 
 input::placeholder {
     color: rgba(253,184,19,0.6);
 }
 
 /* FOCUS - Efecto Batseñal */
-input:focus {
+input:focus, select:focus{
     outline: none;
-    border-color: #FDB813;
-    box-shadow: 
-        0 0 20px rgba(253,184,19,0.4),
-        inset 0 1px 0 rgba(253,184,19,0.2);
+    border-color: var(--accent);
+    box-shadow: var(--glow);
     background: rgba(253,184,19,0.1);
-    transform: scale(1.02);
 }
+
+/*Agregue este bloque para las opciones deplegables*/
+select option{
+    background: var(--bg);
+    color: var(--text);
+}
+
+/*Este es para la opcion seleccionada*/
+select option:checked{
+  background-color: var(--surface); /* gris medio */
+  color:var(--text);
+}
+
+.message {
+    color: var(--error);
+    font-size: 13px;
+    min-height: 18px;
+    margin-top: 6px;
+
+}
+
+
+.hint{
+    margin-top: 14px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 0.95em;
+}
+ /**Checalo para ver si queda mejor **/
+
 
 /* VALIDACIONES VISUALES */
 .valid {
-    border-color: #00FF41 !important; /* BatiVerde */
+    border-color: var(--success) !important; /* BatiVerde */
     box-shadow: 0 0 15px rgba(0,255,65,0.4) !important;
     background: rgba(0,255,65,0.1) !important;
 }
@@ -170,55 +201,47 @@ input:focus {
     animation: shake 0.5s ease-in-out;
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
 /* MENSAJES DE ERROR */
-.message {
-    color: #FF4757;
-    font-size: 13px;
-    min-height: 18px;
-    margin-top: 5px;
-    font-weight: 500;
-}
+
 
 /* BOTONES BATIFAMILIA */
 .btnContainer {
-    margin-top: 25px;
+    margin-top: 22px;
     display: flex;
-    gap: 12px;
+    gap: var(--gap);
 }
 
 button {
     flex: 1;
-    padding: 14px 20px;
+    padding: 14px 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius);
     cursor: pointer;
+    font-family: var(--font-display);
     font-size: 16px;
-    font-weight: 700;
     text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.15s ease,filter 0.2s ease;
+    letter-spacing: 1px;
 }
 
-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(253,184,19,0.3), transparent);
-    transition: 0.5s;
+button:hover{ 
+    filter: brightness(1.06); 
+    transform: translateY(-1px); 
 }
 
-button:hover::before {
-    left: 100%;
+button:active{ transform: translateY(0); }
+
+/* BOTÓN ENVIAR - Amarillo Batman (10%) */
+.submit {
+    background: linear-gradient(145deg, #FDB813, #FDC02E);
+    color: #1C2526;
+    box-shadow: 0 8px 20px rgba(253,184,19,0.4);
+}
+
+.reset {
+    background: linear-gradient(145deg, #36454F, #2A3440);
+    color: #FDB813;
+    border: 2px solid #1C2526;
 }
 
 /* Convierte <a> en botón (para links dentro de btnContainer) */
@@ -226,7 +249,15 @@ button:hover::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: linear-gradient(145deg, var(--surface), var(--surface-2));
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Responsivo btnContainer*/
@@ -237,12 +268,7 @@ button:hover::before {
 }
 
 
-/* BOTÓN ENVIAR - Amarillo Batman (10%) */
-.submit {
-    background: linear-gradient(145deg, #FDB813, #FDC02E);
-    color: #1C2526;
-    box-shadow: 0 8px 20px rgba(253,184,19,0.4);
-}
+
 
 .submit:hover {
     transform: translateY(-2px);
@@ -250,11 +276,7 @@ button:hover::before {
 }
 
 /* BOTÓN RESET - Gris Batman (30%) */
-.reset {
-    background: linear-gradient(145deg, #36454F, #2A3440);
-    color: #FDB813;
-    border: 2px solid #1C2526;
-}
+
 
 .reset:hover {
     background: linear-gradient(145deg, #4A5A6A, #3D4A55);
@@ -263,15 +285,17 @@ button:hover::before {
 
 /* RESULTADO */
 #result {
-    margin-top: 20px;
+    margin-top: 16px;
     background: rgba(28,37,38,0.9);
-    color: #FDB813;
-    padding: 20px;
+    color: var(--text);
+    padding: 16px;
+    border: 1px solid rgba(253,184,19,0.30);
     border-radius: 10px;
-    font-family: monospace;
-    max-height: 300px;
+    font-family: var(--font-mono);
+    max-height: 260px;
     overflow-y: auto;
-    border: 1px solid #FDB813;
+    width:100%;
+    max-width: var(--container);
 }
 
 /* RESPONSIVE */
@@ -281,17 +305,17 @@ button:hover::before {
     .btnContainer { flex-direction: column; gap: 10px; }
 }
 
-@media (max-width: 480px) {
-    body { padding: 10px; }
-    form { padding: 20px; max-width: 100%; }
-    h2 { font-size: 1.5em; }
+@media (max-width: 520px) {
+    body { justify-content: flex-start; }
+    form { padding: 22px; }
+    .nav-link{min-width: 120px;}
 }
 
 /*Agregue esto para que al girar el telefono mantenga la forma*/
 @media (orientation: landscape) and (max-height: 520px){
   body{ justify-content: flex-start; }
   h2{ margin-bottom: 12px; }
-  .page-nav{ margin-bottom: 10px; }
+  .form-container{ margin-top: 10px; }
 }
 
 
@@ -299,39 +323,158 @@ button:hover::before {
     display: none !important;
 }
 
+.wide-container{
+  width: 100%;
+  max-width: var(--container-wide);
+  margin: 18px auto 0;
+}
+
+.hero{
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-top: clamp(10px, 5vh, 40px);
+  text-align:center;
+}
+
+.hero p{
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+
+.hero-actions{
+  max-width: var(--container);
+  margin: 18px auto 0;
+}
+
+.card-grid{
+  margin-top: 28px;
+  width: 100%;
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 980px){
+  .card-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px){
+  .card-grid{ grid-template-columns: 1fr; }
+}
+
+.card{
+  background: linear-gradient(145deg, var(--surface), var(--surface-2));
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  overflow:hidden;
+  box-shadow: var(--shadow-lg);
+  display:flex;
+  flex-direction:column;
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.card:hover{ transform: translateY(-4px); filter: brightness(1.03); }
+
+.card-media{
+  height: 340px;
+  width: 100%;
+  overflow:hidden;
+  border-bottom: 2px solid rgba(253,184,19,0.25);
+  position:relative;
+}
+
+.card-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(25%) contrast(1.1);
+}
+
+/* Scanline effect (subtle) */
+.card-media::after{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 2px;
+  background: rgba(253,184,19,0.55);
+  box-shadow: 0 0 10px rgba(253,184,19,0.45);
+  animation: scan 3.2s linear infinite;
+}
+
+@keyframes scan{
+  0%{ top:0; }
+  100%{ top:100%; }
+}
+
+.card-body{
+  padding: 18px;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  flex: 1;
+}
+
+.card-body h3{
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+
+.card-body p{
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.card-actions{
+  margin-top: auto;
+  display:flex;
+  gap: 10px;
+}
+
+.chip{
+  display:inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(253,184,19,0.25);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
 
 /* Navegación entre páginas */
 .page-nav{
     width: 100%;
-    max-width: 450px;
+    max-width: var(--container);
     display: flex;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 10px 0 18px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .nav-link{
     flex: 1;
-    min-width: 120px;
+    min-width: 140px;
     text-align: center;
     padding: 12px 10px;
     border-radius: 10px;
-    border: 2px solid #1C2526;
-    background: linear-gradient(145deg, #36454F, #2A3440);
-    color: #FDB813;
-    font-weight: 800;
+    border: 2px solid var(--border);
+    background: linear-gradient(14  5deg, #36454F, #2A3440);
+    color: var(--text);
+    font-family: var(--font-display);
     letter-spacing: 1px;
-    text-transform: uppercase;
-    text-decoration: none;
+    transition: filter .2s ease, transform .15s ease;
 }
 
 .nav-link:hover{
     filter: brightness(1.08);
+    transform: translateY(-1px); 
+
 }
 
 .nav-link.active{
-    background: linear-gradient(145deg, #FDB813, #FDC02E);
-    color: #1C2526;
+    background: linear-gradient(145deg, var(--accent), var(--accent-2));
+    color: var(--text-on-accent);
 }
 
 .tab{
@@ -412,7 +555,7 @@ button:hover::before {
 /* Card individual */
 .criminal-card {
     background: rgba(0, 20, 0, 0.8);
-    border: 2px solid #00FF41;
+    border: 2px solid ;
     border-radius: 41px;
     color: #00FF41;
     overflow: hidden; /* Corta la imag si se sale */
@@ -436,7 +579,7 @@ button:hover::before {
 /* Contenedor en la foto*/
 .card-image-container {
     width: 100%;
-    height: 250;
+    height: 600px;
     overflow: hidden;
     border-bottom: 2px solid #00FF41;
     position: relative;
@@ -459,10 +602,6 @@ button:hover::before {
     animation: scan 3s linear infinite;
 }
 
-@keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
-}
 
 /* Contenido del texto de la tarjeta */
 .card-content {
@@ -486,23 +625,6 @@ button:hover::before {
     margin-bottom: 15px;
 }
 
-/* Botón de VerArchivoCompleto */
-.bat-btn-small {
-    background: transparent;
-    border: 1px solid #00FF41;
-    color: #00FF41;
-    padding: 8px 15px;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: monospace;
-}
-
-.bat-btn-small:hover {
-    background: #00FF41;
-    color: #001400;
-}
 
 /* Links debajo del botón (New recruit / Forgot password) */
 .footer-links{
@@ -513,10 +635,72 @@ button:hover::before {
   align-items: center;
 }
 
+
 .footer-links p{
-  margin: 0;             /* quita margen default del <p> */
+    margin: 0;
+     color: var(--text-muted);
+     }
+
+.bat-link{
+  color: var(--accent) !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.footer-links a{
-  margin-left: 8px;      /* separa texto y link en la misma línea */
+
+
+/* separa texto y link en la misma línea */
+/* Navegación entre páginas */
+.page-nav{
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
+
+/*Esto es para el pop
+====== Zoom-out effect ======
+*/
+.mfp-zoom-out {
+  
+  /* start state */
+  .mfp-with-anim {
+    opacity: 0;
+    transition: all 0.3s ease-in-out; 
+    transform: scale(1.3); 
+  }
+  
+  &.mfp-bg {
+    opacity: 0;
+	  transition: all 0.3s ease-out;
+  }
+  
+  /* animate in */
+  &.mfp-ready {
+    .mfp-with-anim {
+      opacity: 1;
+      transform: scale(1); 
+    }
+    &.mfp-bg {
+      opacity: 0.8;
+    }
+  }
+  
+  /* animate out */
+  &.mfp-removing {
+    
+    .mfp-with-anim {
+      transform: scale(1.3); 
+      opacity: 0;
+    }
+    &.mfp-bg {
+      opacity: 0;
+    }
+    
+  }
+  
+}
+
