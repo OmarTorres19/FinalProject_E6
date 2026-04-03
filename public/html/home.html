@@ -4,23 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <title>BatFiles | Arkham Database</title>
-    <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/formStyle.css" type="text/css" />
 </head>
 
 <body>
-    <main class="landing-container">
-        <header class="hero-section">
+    <main class="wide-container">
+
+        <header class="hero">
             <h1>BatFiles</h1>
-            <p>Criminal profiles, forensic records & Gotham's history.</p>
+            <p>Welcome to the Arkham Database. Please verify your identity to access the most wanted dossiers.</p>
         </header>
 
-        <div class="comic-gallery">
-            <img src="../assets/batman-comic1.jpg" alt="Batman Detective">
-        </div>
+        <section class="card-grid" aria-label="Bat-family highlights">
 
-        <div class="access-links">
-            <a href="/login" class="bat-link">SIGN IN</a>
-        </div>
+            <article class="card">
+                <div class="card-media">
+                    <img src="/assets/robin.png" alt="Robin dossier card" />
+                </div>
+                <div class="card-body">
+                    <span class="chip">New members</span>
+                    <p>Field support. Assists with identity verification, onboarding and incident response.</p>
+                    <div class="card-actions">
+                        <a class="link-btn" href="/register">Join Bat‑Family</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-media">
+                    <img src="/assets/gotham.png" alt="New members-card" />
+                </div>
+                <div class="card-body">
+                    <h3>Members</h3>
+                    <div class="card-actions">
+                        <a class="link-btn" href="/login">Verify ID</a>
+                    </div>
+                </div>
+            </article>
+        </section>
     </main>
 </body>
 

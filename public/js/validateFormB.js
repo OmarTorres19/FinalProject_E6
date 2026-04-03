@@ -4,8 +4,7 @@ const result = document.getElementById("result");
 
 
 let currentStep = 1; //Empezamos en step 1
-const step1fields = ["name", "tel", "email"];
-const step2fields = ["password", "confirmPassword", "question", "passphrase"];
+const step1fields = ["name", "tel", "email"];const step2fields = ["password", "confirmPassword", "question", "passphrase"];
 
 
 
@@ -85,6 +84,7 @@ function validateField(id) {
       input.classList.add("invalid");
       return false;
     }
+  
 
     const rule = securityRules[q.value];
     if (!rule.pattern.test(input.value.trim())) {
@@ -93,9 +93,11 @@ function validateField(id) {
       return false;
     }
   }
+
   input.classList.add("valid");
-  return true;
+    return true;
 }
+
 
 /* eventos en inputs */
 [...step1fields, ...step2fields].forEach(id => {
@@ -136,6 +138,7 @@ if (backBtn) {
     });
   });
 }
+
 
 
 
@@ -214,3 +217,16 @@ form.addEventListener("submit", async function (e) {
     result.textContent = 'Connection error. Nice try Riddler...';
   }
 });
+
+// Inline popups
+$('#inline-popups').magnificPopup({
+  delegate: 'a',
+  removalDelay: 500, //delay removal by X to allow out-animation
+  callbacks: {
+    beforeOpen: function() {
+       this.st.mainClass = this.st.el.attr('data-effect');
+    }
+  },
+  midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+});
+

@@ -31,6 +31,7 @@ import path from "path"; //Maneja rutas de archivos (nativo de Node)
 import { fileURLToPath } from "url"; //Convierte URL->ruta de archivo
 
 import formRoutes from "./routes/formRoutes.js"; //Mis rutas personalizadas
+import { get404 } from "./controllers/errorController.js";
 
 // asigna puerto para atender peticiones
 /**
@@ -69,7 +70,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/", formRoutes); // ./routes/formRoutes.js
 
 
-
+app.use(get404); 
 
 //Asociamos puerto con el servidor
 app.listen(port, () => {
