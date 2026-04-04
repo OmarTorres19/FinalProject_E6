@@ -69,6 +69,7 @@
 
                 // Dibujamos cada tarjeta usando Template Literals
                 grid.innerHTML = criminals.map(villain => `
+                <a href="/dossier?id=${villain.id}" class="card-link">
                 <article class="card">
                     <div class="card-media">
                         <img src="${villain.image}" alt="${villain.alias}">
@@ -79,13 +80,11 @@
                         </span>
                         <h3>${villain.alias}</h3>
                         <p><strong>Real Name:</strong> ${villain.name}</p>
-                        <p>${villain.description}</p>
+  
                         <p class="card-crime">⚑ Crime: ${villain.crime}</p>
-                        <div class="card-actions">
-                  <a class="link-btn" href="/dossier?id=${villain.id}">View Full Dossier</a>          
-                        </div>
                     </div>
                 </article>
+                </a>
             `).join('');
 
             } catch (error) {
