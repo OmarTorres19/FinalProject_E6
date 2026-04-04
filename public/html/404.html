@@ -1,40 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Página no encontrada</title>
-    <link rel="stylesheet" href="/css/errorStyles.css">
+  <meta charset="UTF-8" />
+  <title>Error | Gotham</title>
+  <link rel="stylesheet" href="css/errorStyle.css" />
 </head>
 <body>
-  <main class="error-wrap">
-    <section class="error-card">
-      <div class="error-top">
-        <div class="error-badge">
-          <span class="dot"></span>
-          Gotham Dispatch
-        </div>
-        <div class="error-badge">
-          Case: Missing Route
-        </div>
-      </div>
+  <div class="container">
+    <div class="bat-signal">
+      <div class="batman"></div>
+    </div>
 
-      <div class="error-code">404</div>
-      <div class="error-title">Esta ruta no existe en Gotham</div>
-      <p class="error-text">
-        El recurso que buscas no está disponible o cambió de ubicación.
-        Regresa al Home o inicia sesión para continuar.
-      </p>
+    <h1 class="title">404</h1>
+    <p class="message">
+      This route is not available…<br />
+      Gotham is still watching.
+    </p>
 
-      <div class="error-actions">
-        <a class="submit" href="/home">Go Home</a>
-        <a class="link-btn ghost" href="/login">Back to Login</a>
-      </div>
+    <button onclick="goBack()">Back home</button>
+    
+  </div>
 
-      <svg class="batmark" viewBox="0 0 64 32" aria-hidden="true">
-        <path fill="currentColor" d="M32 6c4-8 10-2 8 6 6-4 8 2 6 8 6-2 10 6 4 10-3 2-7 0-10-2-2 3-6 6-8 6s-6-3-8-6c-3 2-7 4-10 2-6-4-2-12 4-10-2-6 0-12 6-8-2-8 4-14 8-6z"/>
-      </svg>
-    </section>
-  </main>
+  <script src="/js/error.js"></script>
 </body>
 </html>
