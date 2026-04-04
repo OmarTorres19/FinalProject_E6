@@ -87,7 +87,7 @@ const ARKHAM_DATABASE = [
         name: "Harvey Dent",
         alias: "Two-Face",
         crime: "Exortion and Organized Crime",
-        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.Two-Face (Harvey Dent) is a prominent Batman villain representing extreme duality, scarred physically and mentally after acid ruined half his face. Formerly Gotham’s heroic District Attorney, his fractured psyche (often due to childhood trauma or bipolar disorder) drove him to become a criminal mastermind obsessed with fate and the number two.",
+        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.Two-Face (Harvey Dent) is a prominent Batman villain representing extreme duality, scarred physically and mentally after acid ruined half his face. Formerly Gotham’s heroic District Attorney, his fractured psyche (often due to childhood trauma or bipolar disorder) drove him to become a criminal mastermind obsessed with fate and the number two.gir ",
         dangerLevel: "High",
         image: "https://i.pinimg.com/736x/df/2a/b0/df2ab0f7da6704b42914ccc9943446ee.jpg"
     },
