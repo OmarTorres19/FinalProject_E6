@@ -9,7 +9,7 @@
 */
 
 import express from "express";
-import { showLanding, showLogin, showForm, processLogin, showValidate, getCriminals, showDashboard, showUser, getSecurityQuestion, resetPassword, showForgotPassword } from "../controllers/formControllers.js"; 
+import { showLanding, showLogin,showDossier, showForm, processLogin, showValidate, getCriminals, showDashboard, showUser, getSecurityQuestion, resetPassword, showForgotPassword } from "../controllers/formControllers.js"; 
 
 const router = express.Router();
 
@@ -22,6 +22,8 @@ router.get("/user", showUser);
 
 router.get("/forgotPassword", showForgotPassword);
 
+//ruta para mostrar el dossier de un criminal específico
+router.get("/dossier", showDossier);
 
 
 // APIs

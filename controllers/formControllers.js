@@ -77,7 +77,7 @@ const ARKHAM_DATABASE = [
         name: "Jack Napier",
         alias: "The Joker",
         crime: "Mass Chaos Homicide",
-        description: "High unpredictability. Agent of chaos. Do not engage without backup",
+        description: "High unpredictability. Agent of chaos. Do not engage without backup.The Joker is Batman’s arch-nemesis, a psychopathic, anarchist agent of chaos characterized by white skin, green hair, and a Glasgow Smile. He is a sadistic mastermind who uses theatrical crimes and psychological terror to combat Batman, often pushing him to break his no-killing rule. The Joker's unpredictability and lack of clear motives make him one of Gotham's most dangerous criminals.",
         dangerLevel: "Extreme",
         image: "https://i.pinimg.com/1200x/3b/4f/db/3b4fdb1fd4cdb715d2f3d24517cc0e33.jpg"
 
@@ -87,7 +87,7 @@ const ARKHAM_DATABASE = [
         name: "Harvey Dent",
         alias: "Two-Face",
         crime: "Exortion and Organized Crime",
-        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.",
+        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.Two-Face (Harvey Dent) is a prominent Batman villain representing extreme duality, scarred physically and mentally after acid ruined half his face. Formerly Gotham’s heroic District Attorney, his fractured psyche (often due to childhood trauma or bipolar disorder) drove him to become a criminal mastermind obsessed with fate and the number two.",
         dangerLevel: "High",
         image: "https://i.pinimg.com/736x/df/2a/b0/df2ab0f7da6704b42914ccc9943446ee.jpg"
     },
@@ -96,7 +96,7 @@ const ARKHAM_DATABASE = [
         name: "Selina Kyle",
         alias: "Catwoman",
         crime: "Grand Theft",
-        description: "Expert burglar. Approach with caution.",
+        description: "Expert burglar. Approach with caution.Catwoman (Selina Kyle) is a charismatic, acrobatic, and morally ambiguous antiheroine in Batman lore. As a master thief often operating in Gotham City, she uses stealth and cunning, yet she typically operates outside the law, often aligning with the shades of gray and harboring a strong, altruistic strea",
         dangerLevel: "Moderate",
         image: "https://i.pinimg.com/736x/b3/e4/cd/b3e4cd1538e4662ad10dbe957d5e8268.jpg"
     }
@@ -277,4 +277,9 @@ export const resetPassword = async (req, res) => {
             message: "Error updating protocols."
         });
     }
+};
+
+// Controlador para mostrar el dossier de un criminal específico
+export const showDossier = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/dossier.html"));
 };
