@@ -37,6 +37,8 @@ export const processLogin = async (req, res) => {
         const isMaster = (email === MASTER_USER.email && password === MASTER_USER.password);
 
         if (isMaster) {
+            // Guardamos datos del master en la sesión
+            req.session.user = { name: "Bruce Wayne", email: MASTER_USER.email };
             return res.json({
                 success: true,
                 message: `Welcome back, Bruce.`,
@@ -48,6 +50,8 @@ export const processLogin = async (req, res) => {
             const isMatch = await bcrypt.compare(password, userFound.password);
 
             if (isMatch) {
+                // Guardamos datos del usuario en la sesión
+                req.session.user = { name: userFound.name, email: userFound.email };
                 return res.json({
                     success: true,
                     message: `Welcome back ${userFound.name}.`,
@@ -77,7 +81,7 @@ const ARKHAM_DATABASE = [
         name: "Jack Napier",
         alias: "The Joker",
         crime: "Mass Chaos Homicide",
-        description: "High unpredictability. Agent of chaos. Do not engage without backup",
+        description: "High unpredictability. Agent of chaos. Do not engage without backup.The Joker is Batman’s arch-nemesis, a psychopathic, anarchist agent of chaos characterized by white skin, green hair, and a Glasgow Smile. He is a sadistic mastermind who uses theatrical crimes and psychological terror to combat Batman, often pushing him to break his no-killing rule. The Joker's unpredictability and lack of clear motives make him one of Gotham's most dangerous criminals.",
         dangerLevel: "Extreme",
         image: "https://i.pinimg.com/1200x/3b/4f/db/3b4fdb1fd4cdb715d2f3d24517cc0e33.jpg"
 
@@ -87,7 +91,7 @@ const ARKHAM_DATABASE = [
         name: "Harvey Dent",
         alias: "Two-Face",
         crime: "Exortion and Organized Crime",
-        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.",
+        description: "Obsessed with duality. Desicions governed by a scarred silver dollar.Two-Face (Harvey Dent) is a prominent Batman villain representing extreme duality, scarred physically and mentally after acid ruined half his face. Formerly Gotham’s heroic District Attorney, his fractured psyche (often due to childhood trauma or bipolar disorder) drove him to become a criminal mastermind obsessed with fate and the number two.gir ",
         dangerLevel: "High",
         image: "https://i.pinimg.com/736x/df/2a/b0/df2ab0f7da6704b42914ccc9943446ee.jpg"
     },
@@ -96,7 +100,7 @@ const ARKHAM_DATABASE = [
         name: "Selina Kyle",
         alias: "Catwoman",
         crime: "Grand Theft",
-        description: "Expert burglar. Approach with caution.",
+        description: "Expert burglar. Approach with caution.Catwoman (Selina Kyle) is a charismatic, acrobatic, and morally ambiguous antiheroine in Batman lore. As a master thief often operating in Gotham City, she uses stealth and cunning, yet she typically operates outside the law, often aligning with the shades of gray and harboring a strong, altruistic strea",
         dangerLevel: "Moderate",
         image: "https://i.pinimg.com/736x/b3/e4/cd/b3e4cd1538e4662ad10dbe957d5e8268.jpg"
     }
@@ -229,6 +233,24 @@ export const showForgotPassword = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/forgotPassword.html"));
 };
 
+// Devuelve los datos del usuario en sesión activa
+export const getMe = (req, res) => {
+    if (req.session && req.session.user) {
+        return res.json({ name: req.session.user.name, email: req.session.user.email });
+    }
+    return res.status(401).json({ name: null });
+};
+
+// Destruye la sesión activa y redirige al login
+export const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error al cerrar sesión:", err);
+        }
+        res.redirect("/login");
+    });
+};
+
 
 // RECUPERACAO - Validamos y autenticamos
 export const resetPassword = async (req, res) => {
@@ -277,4 +299,9 @@ export const resetPassword = async (req, res) => {
             message: "Error updating protocols."
         });
     }
+};
+
+// Controlador para mostrar el dossier de un criminal específico
+export const showDossier = (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/html/dossier.html"));
 };

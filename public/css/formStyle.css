@@ -67,14 +67,17 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
-    /*min-width: 400px; // lo quite para que peuda funcionar en panatalals pequea;s
-    /*padding: 20px; */
     position: relative;
     overflow-y: auto;
     min-height: 100dvh;
     overflow-x:hidden;
-    padding: var(--gutter)
+    padding: var(--gutter);
+    padding-bottom: calc(var(--gutter)*2);
+
+    /* Tipografía base global */
+    font-size: var(--fs-base);
+    line-height: 1.5;
+    font-family: var(--font-ui);
 }
 
 @keyframes batSuit{
@@ -258,6 +261,31 @@ button:active{ transform: translateY(0); }
     font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    cursor: pointer;
+    transition: filter .2s ease, transform .15s ease;
+}
+
+.link-btn:hover{
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* FOCUS VISIBLE — accesibilidad para navegación con teclado */
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+.link-btn:focus-visible,
+.btn-logout:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* Botón deshabilitado durante fetch */
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none !important;
+    filter: none !important;
 }
 
 /* Responsivo btnContainer*/
@@ -283,20 +311,6 @@ button:active{ transform: translateY(0); }
     color: #FDB813;
 }
 
-/* RESULTADO */
-#result {
-    margin-top: 16px;
-    background: rgba(28,37,38,0.9);
-    color: var(--text);
-    padding: 16px;
-    border: 1px solid rgba(253,184,19,0.30);
-    border-radius: 10px;
-    font-family: var(--font-mono);
-    max-height: 260px;
-    overflow-y: auto;
-    width:100%;
-    max-width: var(--container);
-}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -305,19 +319,28 @@ button:active{ transform: translateY(0); }
     .btnContainer { flex-direction: column; gap: 10px; }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 480px) {
+    form { padding: 18px; }
+    h2   { font-size: 1.5rem; }
+    h1   { font-size: 1.7rem; }
+
+
+    /* Inputs y botones con altura mínima táctil (44px) */
+    input, select, button, .link-btn {
+        min-height: 44px;
+    }
+
+    .nav-link { min-width: 120px; }
+    .form-container { margin-top: 10px; }
+}
+
+/* Landscape en móvil — evita que el form quede cortado al girar */
+@media (orientation: landscape) and (max-height: 520px) {
     body { justify-content: flex-start; }
-    form { padding: 22px; }
-    .nav-link{min-width: 120px;}
+    h2   { margin-bottom: 10px; }
+    .form-container { margin-top: 8px; }
+    .card-media { height: 220px; }
 }
-
-/*Agregue esto para que al girar el telefono mantenga la forma*/
-@media (orientation: landscape) and (max-height: 520px){
-  body{ justify-content: flex-start; }
-  h2{ margin-bottom: 12px; }
-  .form-container{ margin-top: 10px; }
-}
-
 
 .hidden {
     display: none !important;
@@ -327,6 +350,7 @@ button:active{ transform: translateY(0); }
   width: 100%;
   max-width: var(--container-wide);
   margin: 18px auto 0;
+  padding-bottom: var(--gutter);
 }
 
 .hero{
@@ -339,6 +363,29 @@ button:active{ transform: translateY(0); }
 .hero p{
   margin-top: 6px;
   color: var(--text-muted);
+}
+
+/* Botón de cierre de sesión en el dashboard */
+.btn-logout {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 20px;
+  background: transparent;
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-logout:hover {
+  background: var(--error);
+  color: #fff;
 }
 
 .hero-actions{
@@ -354,11 +401,16 @@ button:active{ transform: translateY(0); }
   gap: 18px;
 }
 
+/* Variante de 2 columnas — para páginas con 2 cards (home) */
+.card-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 @media (max-width: 980px){
   .card-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px){
-  .card-grid{ grid-template-columns: 1fr; }
+  .card-grid, .card-grid--2 { grid-template-columns: 1fr; }
 }
 
 .card{
@@ -369,10 +421,14 @@ button:active{ transform: translateY(0); }
   box-shadow: var(--shadow-lg);
   display:flex;
   flex-direction:column;
-  transition: transform .2s ease, filter .2s ease;
+  transition: transform .2s ease,box-shadow .25s ease, filter .2s ease;
 }
 
-.card:hover{ transform: translateY(-4px); filter: brightness(1.03); }
+.card:hover{
+     transform: translateY(-4px); 
+     filter: brightness(1.03);
+    box-shadow: var(--shadow-lg), var(--glow);
+ }
 
 .card-media{
   height: 340px;
@@ -702,5 +758,51 @@ button:active{ transform: translateY(0); }
     
   }
   
+}
+
+/* Estilo especial para el botón de salida */
+.btn-logout {
+    background: linear-gradient(145deg, var(--surface), #440000);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.btn-logout:hover {
+    box-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
+    filter: brightness(1.2);
+}
+/* --- Lo subimos a la parte superior --- */
+/* --- BOTÓN LOGOUT POSICIONADO --- */
+.btn-logout-top {
+    position: absolute; 
+    top: var(--gutter);
+    right: var(--gutter);
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    z-index: 100;    
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.btn-logout-top:hover {
+    background: var(--danger); /* Rojo Joker definido en tu CSS */
+    color: white;
+    border-color: #000;
+    box-shadow: 0 0 15px var(--danger);
+    transform: scale(1.05);
+    text-decoration: none;
+}
+
+/* Ajuste para pantallas pequeñas (móviles) */
+@media (max-width: 520px) {
+    .btn-logout-top {
+        position: relative; /* Deja de flotar y se coloca al inicio del contenido */
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%; /* Ocupa todo el ancho en celulares */
+    }
 }
 

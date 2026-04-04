@@ -1,30 +1,26 @@
 [
   {
-    "name": "Karen Scarlett Gallegos Lozano",
-    "tel": "(52) 55 1234 5678",
-    "email": "s@s.com",
-    "password": "scarlett"
-  },
-  {
-    "name": "vari",
-    "tel": "(52) 55 1234 5678",
-    "email": "v@v.com",
-    "password": "scarlett"
-  },
-  {
-    "name": "karen",
-    "tel": "(52) 55 49814771 ",
-    "email": "k@k.com",
-    "password": "$2b$10$o3r1.xPeNgZTQDrPBghkcugNu9IWKIOknWun3ESsnI80o9smAV7GK",
+    "name": "JOSE JUAN BAZALDUA MONTOYA",
+    "tel": "(52) 5554019990",
+    "email": "juanbazaldua1125@gmail.com",
+    "password": "$2b$10$FtdaDS1Rw78ZzawRjbIggeNSFBvdj/i5Z4sPrd5eHhDQg1gkmM4t6",
     "question": "petName",
-    "passphrase": "$2b$10$95LelkY2mHpSThRd1W.HheKzNaJnR3.JlVWOkgn.3qzpgeQY5AXgq"
+    "passphrase": "$2b$10$Yw7XF5/5ZY4fnOGRwO4Rme3frXjtIwx8swbGqkD6/qu3zUgpX09ky"
+  },
+  {
+    "name": "scarlett",
+    "tel": "(52)  2185 9893",
+    "email": "scar@s.com",
+    "password": "$2b$10$nldjhxtwJ6s7oI7MllB9SuVArMqhmSGfTSEGYnIA0eBxD5ts7OhDW",
+    "question": "petName",
+    "passphrase": "$2b$10$nldjhxtwJ6s7oI7MllB9SuLPdyw1DpRO8YQ5ww.5XVihLNk0DPtl."
   },
   {
     "name": "roy",
     "tel": "(52) 55 49814771 ",
-    "email": "k@klo.co",
-    "password": "$2b$10$X8t9f46NXt/NOQYy6pIBl.HDZm1m/mew3vJW8kCdyv4n.61JoI8gC",
-    "question": "favColor",
-    "passphrase": "$2b$10$X8t9f46NXt/NOQYy6pIBl.53mX9ZoJiGAntCXsUZnHnBvAWCxGIsy"
+    "email": "roy@r.com",
+    "password": "$2b$10$fALWyshXUd527.v7vcl.e.sCUpe6Lkqy1L6zJy3izmshCuIbpnTCe",
+    "question": "petName",
+    "passphrase": "$2b$10$fALWyshXUd527.v7vcl.e.t0rk6e7C/h38HeVUbbTgLkzxdCxuR.G"
   }
 ]
