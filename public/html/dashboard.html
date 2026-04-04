@@ -9,16 +9,20 @@
 </head>
 
 <body>
-    <main class= "wide-container">
-        <header class="hero">
-            <h1>Gotham Most Wanted</h1>
-            <p>Accessing Arkham Asylum Criminal Files...</p>
-        </header>
-
-        <section id="criminal-grid" class="criminal-grid" aria-label="criminal dossiers">
+    
+<main class="wide-container">
+    <!--Boton de salida "Cierra sesion" y te envia nuevamente a login -->
+    <a href="/login" class="link-btn btn-logout-top" style="padding: 8px 16px; font-size: 0.8rem;">
+                 Exit Cave </a>
+    <header class="hero">
+        <div style="display: flex; justify-content: flex-end; width: 100%;">
+        </div>
+        <h1>Gotham Most Wanted</h1>
+        <p>Accessing Arkham Asylum Criminal Files...</p>
+    </header>
+    <section id="criminal-grid" class="criminal-grid" aria-label="criminal dossiers">
         </section>
-    </main>
-
+</main>
     <script>
         async function loadCriminals() {
             const grid = document.getElementById('criminal-grid');

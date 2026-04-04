@@ -704,3 +704,49 @@ button:active{ transform: translateY(0); }
   
 }
 
+/* Estilo especial para el botón de salida */
+.btn-logout {
+    background: linear-gradient(145deg, var(--surface), #440000);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.btn-logout:hover {
+    box-shadow: 0 0 15px rgba(255, 0, 64, 0.4);
+    filter: brightness(1.2);
+}
+/* --- Lo subimos a la parte superior --- */
+/* --- BOTÓN LOGOUT POSICIONADO --- */
+.btn-logout-top {
+    position: absolute; 
+    top: var(--gutter);
+    right: var(--gutter);
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    z-index: 100;    
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.btn-logout-top:hover {
+    background: var(--danger); /* Rojo Joker definido en tu CSS */
+    color: white;
+    border-color: #000;
+    box-shadow: 0 0 15px var(--danger);
+    transform: scale(1.05);
+    text-decoration: none;
+}
+
+/* Ajuste para pantallas pequeñas (móviles) */
+@media (max-width: 520px) {
+    .btn-logout-top {
+        position: relative; /* Deja de flotar y se coloca al inicio del contenido */
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%; /* Ocupa todo el ancho en celulares */
+    }
+}
+

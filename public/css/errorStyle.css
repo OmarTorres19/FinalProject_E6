@@ -140,3 +140,19 @@ body.error-page{
   .error-actions{ flex-direction: column; }
   .error-actions a, .error-actions button{ min-width: 100%; }
 }
+
+/* Forzar que los enlaces de acción se vean como botones reales */
+.error-actions a.submit {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    min-width: 160px; /* Le damos un ancho mínimo para que resalte */
+    cursor: pointer;
+}
+
+.error-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: flex-start; /* Alineado a la izquierda como el resto del texto */
+}
