@@ -29,6 +29,7 @@
 import express from "express";
 import path from "path"; //Maneja rutas de archivos (nativo de Node)
 import { fileURLToPath } from "url"; //Convierte URL->ruta de archivo
+import session from "express-session"; //Manejo de sesiones de usuario
 
 import formRoutes from "./routes/formRoutes.js"; //Mis rutas personalizadas
 import { get404 } from "./controllers/errorController.js";
@@ -54,6 +55,22 @@ app.use(express.json()); //Función Middleware incorporada de Express
 //Procesa formularios HTML.
 app.use(express.urlencoded({ extended: true })); //extended:true - permite objetos anidados en formularios
 //<form name="Juan&age=25> → req.body = {name: "Juan", age: "25"}
+
+// Configuración de sesiones
+// secret:          clave para firmar la cookie (en producción iría en .env)
+// resave:          no re-guarda la session si no hubo cambios
+// saveUninitialized: no crea session hasta que se guarde algo (ej: login exitoso)
+// cookie.maxAge:   duración de la sesión en ms → 1 hora
+// cookie.httpOnly: la cookie no es accesible desde JavaScript del navegador (seguridad)
+app.use(session({
+    secret: "bat-cave-secret-key-2024",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60, // 1 hora
+        httpOnly: true
+    }
+}));
 
 const __filename = fileURLToPath(import.meta.url); // toma toda la ruta y el nombre del archivo .../index.js
 const __dirname = path.dirname(__filename);        // toma solo la ruta .../Torres_WebApp

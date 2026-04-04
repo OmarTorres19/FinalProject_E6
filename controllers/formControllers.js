@@ -37,6 +37,8 @@ export const processLogin = async (req, res) => {
         const isMaster = (email === MASTER_USER.email && password === MASTER_USER.password);
 
         if (isMaster) {
+            // Guardamos datos del master en la sesión
+            req.session.user = { name: "Bruce Wayne", email: MASTER_USER.email };
             return res.json({
                 success: true,
                 message: `Welcome back, Bruce.`,
@@ -48,6 +50,8 @@ export const processLogin = async (req, res) => {
             const isMatch = await bcrypt.compare(password, userFound.password);
 
             if (isMatch) {
+                // Guardamos datos del usuario en la sesión
+                req.session.user = { name: userFound.name, email: userFound.email };
                 return res.json({
                     success: true,
                     message: `Welcome back ${userFound.name}.`,
@@ -227,6 +231,24 @@ export const getSecurityQuestion = async (req, res) => {
 
 export const showForgotPassword = (req, res) => {
     res.sendFile(path.join(__dirname, "../public/html/forgotPassword.html"));
+};
+
+// Devuelve los datos del usuario en sesión activa
+export const getMe = (req, res) => {
+    if (req.session && req.session.user) {
+        return res.json({ name: req.session.user.name, email: req.session.user.email });
+    }
+    return res.status(401).json({ name: null });
+};
+
+// Destruye la sesión activa y redirige al login
+export const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error al cerrar sesión:", err);
+        }
+        res.redirect("/login");
+    });
 };
 
 

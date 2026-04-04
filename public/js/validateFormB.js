@@ -1,5 +1,17 @@
+// Toggle visibilidad de campos de contraseña
+function togglePwd(id) {
+    const input = document.getElementById(id);
+    const btn   = input.parentElement.querySelector('.toggle-password');
+    if (input.type === 'password') {
+        input.type      = 'text';
+        btn.textContent = '🙈';
+    } else {
+        input.type      = 'password';
+        btn.textContent = '👁';
+    }
+}
+
 const form = document.getElementById("myForms");
-const result = document.getElementById("result");
 
 
 
@@ -127,9 +139,9 @@ if (backBtn) {
     document.getElementById("step-2").classList.add("hidden");
     document.getElementById("step-1").classList.remove("hidden");
 
-    result.textContent = "";
+    updateStepIndicator(1);
 
-    // limpia validaciones del step 2
+    // Limpia validaciones del step 2
     step2fields.forEach(id => {
       const el = document.getElementById(id);
       const err = document.getElementById("error-" + id);
@@ -143,90 +155,92 @@ if (backBtn) {
 
 
 
+/* Referencia al botón activo según el step */
+function getActiveBtn() {
+  return currentStep === 1
+    ? form.querySelector('#step-1 button[type="submit"]')
+    : form.querySelector('#step-2 button[type="submit"]');
+}
+
+/* Actualiza el indicador visual de pasos */
+function updateStepIndicator(step) {
+  const dot1 = document.getElementById('step-dot-1');
+  const dot2 = document.getElementById('step-dot-2');
+
+  if (step === 2) {
+    dot1.classList.remove('active');
+    dot1.classList.add('completed');
+    dot2.classList.add('active');
+  } else {
+    dot2.classList.remove('active');
+    dot1.classList.remove('completed');
+    dot1.classList.add('active');
+  }
+}
+
 /* submit */
 form.addEventListener("submit", async function (e) {
-  e.preventDefault() //Detiene recarga
+  e.preventDefault(); // Detiene recarga
 
   const fieldsToValidate = (currentStep === 1) ? step1fields : step2fields;
-  let isStepValid = true; //validación de campos
+  let isStepValid = true;
 
   fieldsToValidate.forEach(id => {
-    if (!validateField(id)) {
-      isStepValid = false;
-    }
+    if (!validateField(id)) isStepValid = false;
   });
 
   if (!isStepValid) {
-    result.textContent = 'Please check for errors above.';
+    showToast("Please check for errors above.", "warning");
     return;
   }
 
+  // Loader: desactiva botón mientras espera
+  const btn = getActiveBtn();
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Processing...";
 
-  //AJAX Fetch
-  //envía al servidor
   try {
     const data = Object.fromEntries(new FormData(form));
-    data.step = currentStep; //Decimos en qué paso vamos
+    data.step = currentStep;
 
     const response = await fetch('/api/validate', {
-      method: 'POST',  //método HTTP
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
 
-    //esperamos respuesta del servidor
     const resultData = await response.json();
 
-    if (resultData.success) { //muestra respuesta del servidor
-      //Éxito
-
+    if (resultData.success) {
       if (currentStep === 1) {
-        currentStep = 2; //Avanzamos al paso 2
+        currentStep = 2;
 
-        document.getElementById('step-1').classList.add('hidden'); //Ocultamos el paso 1
-        document.getElementById('step-2').classList.remove('hidden'); //Mostramos paso 2
+        document.getElementById('step-1').classList.add('hidden');
+        document.getElementById('step-2').classList.remove('hidden');
 
-        result.textContent = "Step 1 verified. Secure your account."; //Limpiamos errores previos
+        updateStepIndicator(2);
+        showToast("Step 1 verified. Secure your account.", "info");
+
+        // Restaura botón del step 2
+        btn.disabled = false;
+        btn.textContent = originalText;
       } else {
         // ¡ÉXITO FINAL!
-        console.log("--- BAT-DATA RECOLECTADA ---");
-        console.log(resultData.allData); // Aquí se ve el JSON
-
-        result.innerHTML = `
-            <h3 style="color: #00FF41">Welcome to the Bat-Family! 🦇</h3>
-              <p style="margin-bottom: 15px;">Your identity has been encrypted and stored.</p>
-              <div class="btnContainer">
-                <a href="/login" class="submit link-btn">GO TO LOGIN</a>
-              </div>
-              <p style="font-size: 0.8em; margin-top: 10px; color: rgba(253,184,19,0.6);">
-                Automatic redirection in 5 seconds...
-              </p>`;
-
-        // Volvemos al estado inicial después de 3 segundos
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 5000);
-      
+        showToast("Welcome to the Bat-Family! Redirecting to login...", "success");
         form.reset();
+        setTimeout(() => { window.location.href = '/login'; }, 5000);
       }
     } else {
-      result.textContent = resultData.message;
+      showToast(resultData.message, "error");
+      btn.disabled = false;
+      btn.textContent = originalText;
     }
   } catch (error) {
     console.error('BatSignal Error:', error);
-    result.textContent = 'Connection error. Nice try Riddler...';
+    showToast("Connection error. Nice try Riddler...", "error");
+    btn.disabled = false;
+    btn.textContent = originalText;
   }
-});
-
-// Inline popups
-$('#inline-popups').magnificPopup({
-  delegate: 'a',
-  removalDelay: 500, //delay removal by X to allow out-animation
-  callbacks: {
-    beforeOpen: function() {
-       this.st.mainClass = this.st.el.attr('data-effect');
-    }
-  },
-  midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
 });
 

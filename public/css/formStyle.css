@@ -2,6 +2,9 @@
 Formualrio Batifamilia - Gotham City
 Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 10%)
 */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap");
+
 :root{
   /* Layout */
   --container: 520px;
@@ -13,12 +16,12 @@ Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 
 
   /* Typography */
   --font-ui: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --font-display: "Arial Black", Impact, Arial, sans-serif;
+  --font-display: "Orbitron", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
 
-  --fs-base: 16px;
+  --fs-base: 20px;
   --fs-label: 0.95rem;
-  --fs-h1: clamp(1.9rem, 4vw, 2.6rem);
+  --fs-h1: clamp(2.4rem, 5vw, 3.4rem);
   --fs-h2: clamp(1.6rem, 3.5vw, 2.2rem);
 
   /* Color tokens (Batman default) */
@@ -31,7 +34,7 @@ Colores Batman: #1C2526 (Negro/Gris 60%), #36454F (Gris 30%), #FDB813 (Amarillo 
   --accent: #FDB813;
   --accent-2: #FDC02E;
   --text: #FDB813;
-  --text-muted: rgba(253,184,19,0.82);
+  --text-muted: rgba(253,184,19,0.92);
   --text-on-accent: #1C2526;
   --error: #FF4757;
   --success: #00FF41;
@@ -67,14 +70,17 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
-    /*min-width: 400px; // lo quite para que peuda funcionar en panatalals pequea;s
-    /*padding: 20px; */
+    min-height: 100dvh;
     position: relative;
     overflow-y: auto;
-    min-height: 100dvh;
-    overflow-x:hidden;
-    padding: var(--gutter)
+    overflow-x: hidden;
+    padding: var(--gutter);
+    padding-bottom: calc(var(--gutter) * 2);
+
+    /* Tipografía base global */
+    font-size: var(--fs-base);
+    line-height: 1.5;
+    font-family: var(--font-ui);
 }
 
 @keyframes batSuit{
@@ -258,6 +264,32 @@ button:active{ transform: translateY(0); }
     font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    cursor: pointer;
+    transition: filter .2s ease, transform .15s ease;
+}
+
+.link-btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+/* FOCUS VISIBLE — accesibilidad para navegación con teclado */
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+.link-btn:focus-visible,
+.btn-logout:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* Botón deshabilitado durante fetch */
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none !important;
+    filter: none !important;
 }
 
 /* Responsivo btnContainer*/
@@ -283,39 +315,41 @@ button:active{ transform: translateY(0); }
     color: #FDB813;
 }
 
-/* RESULTADO */
-#result {
-    margin-top: 16px;
-    background: rgba(28,37,38,0.9);
-    color: var(--text);
-    padding: 16px;
-    border: 1px solid rgba(253,184,19,0.30);
-    border-radius: 10px;
-    font-family: var(--font-mono);
-    max-height: 260px;
-    overflow-y: auto;
-    width:100%;
-    max-width: var(--container);
-}
+/* (eliminado #result — reemplazado por sistema de Toast) */
 
-/* RESPONSIVE */
+/* ==========================================
+   BREAKPOINTS ESTÁNDAR
+   Mobile:  < 480px
+   Tablet:  481px – 768px
+   Desktop: > 769px
+   ========================================== */
+
 @media (max-width: 768px) {
-    form { padding: 25px; }
-    h2 { font-size: 1.8em; }
+    form { padding: 24px; }
+    h2   { font-size: 1.8rem; }
     .btnContainer { flex-direction: column; gap: 10px; }
 }
 
-@media (max-width: 520px) {
-    body { justify-content: flex-start; }
-    form { padding: 22px; }
-    .nav-link{min-width: 120px;}
+@media (max-width: 480px) {
+    form { padding: 18px; }
+    h2   { font-size: 1.5rem; }
+    h1   { font-size: 1.7rem; }
+
+    /* Inputs y botones con altura mínima táctil (44px) */
+    input, select, button, .link-btn {
+        min-height: 44px;
+    }
+
+    .nav-link { min-width: 120px; }
+    .form-container { margin-top: 10px; }
 }
 
-/*Agregue esto para que al girar el telefono mantenga la forma*/
-@media (orientation: landscape) and (max-height: 520px){
-  body{ justify-content: flex-start; }
-  h2{ margin-bottom: 12px; }
-  .form-container{ margin-top: 10px; }
+/* Landscape en móvil — evita que el form quede cortado al girar */
+@media (orientation: landscape) and (max-height: 520px) {
+    body { justify-content: flex-start; }
+    h2   { margin-bottom: 10px; }
+    .form-container { margin-top: 8px; }
+    .card-media { height: 220px; }
 }
 
 
@@ -327,6 +361,7 @@ button:active{ transform: translateY(0); }
   width: 100%;
   max-width: var(--container-wide);
   margin: 18px auto 0;
+  padding-bottom: var(--gutter);
 }
 
 .hero{
@@ -341,6 +376,29 @@ button:active{ transform: translateY(0); }
   color: var(--text-muted);
 }
 
+/* Botón de cierre de sesión en el dashboard */
+.btn-logout {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 20px;
+  background: transparent;
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-logout:hover {
+  background: var(--error);
+  color: #fff;
+}
+
 .hero-actions{
   max-width: var(--container);
   margin: 18px auto 0;
@@ -349,30 +407,40 @@ button:active{ transform: translateY(0); }
 .card-grid{
   margin-top: 28px;
   width: 100%;
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+}
+
+/* Variante de 2 columnas — para páginas con 2 cards (home) */
+.card-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (max-width: 980px){
   .card-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 620px){
-  .card-grid{ grid-template-columns: 1fr; }
+  .card-grid,
+  .card-grid--2 { grid-template-columns: 1fr; }
 }
 
 .card{
   background: linear-gradient(145deg, var(--surface), var(--surface-2));
   border: 2px solid var(--border);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   overflow:hidden;
   box-shadow: var(--shadow-lg);
   display:flex;
   flex-direction:column;
-  transition: transform .2s ease, filter .2s ease;
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
 }
 
-.card:hover{ transform: translateY(-4px); filter: brightness(1.03); }
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg), var(--glow);
+  filter: brightness(1.04);
+}
 
 .card-media{
   height: 340px;
@@ -430,6 +498,16 @@ button:active{ transform: translateY(0); }
   gap: 10px;
 }
 
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link .card {
+  height: 100%;
+}
+
 .chip{
   display:inline-block;
   padding: 6px 10px;
@@ -447,7 +525,7 @@ button:active{ transform: translateY(0); }
     max-width: var(--container);
     display: flex;
     gap: 10px;
-    margin-bottom: 10px 0 18px;
+    margin: 10px 0 18px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -457,12 +535,13 @@ button:active{ transform: translateY(0); }
     min-width: 140px;
     text-align: center;
     padding: 12px 10px;
-    border-radius: 10px;
+    border-radius: var(--radius);
     border: 2px solid var(--border);
-    background: linear-gradient(14  5deg, #36454F, #2A3440);
+    background: linear-gradient(145deg, #36454F, #2A3440);
     color: var(--text);
     font-family: var(--font-display);
     letter-spacing: 1px;
+    cursor: pointer;
     transition: filter .2s ease, transform .15s ease;
 }
 
@@ -503,7 +582,7 @@ button:active{ transform: translateY(0); }
 .helper{
     margin-top: 14px;
     font-size: 0.9em;
-    color: rgba(253,184,19,0.85);
+    color: rgba(253,184,19,0.92);
 }
 
 .helper a{
@@ -514,116 +593,26 @@ button:active{ transform: translateY(0); }
     text-decoration: underline;
 }
 
-/*Agregue esto para mantener la misma froma en cualquier pantalla*/
-:root{
-  --container: 520px;
-  --gutter: clamp(12px, 3vw, 24px);
-  --radius: clamp(12px, 2.2vw, 16px);
-}
 /* ------------------------------ESTILOS DASHBOARD------------------------------ */
 
-/* Contenedor principal */
-.dashboard-container {
-    padding: 40px;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Título del card */
-.dashboard-header {
-    font-family: 'Courier New', Courier, monospace;
-    color: #00FF41;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 50px;
-    text-shadow: 0 0 10px #00FF41;
-}
-
-/* Criminal Grid */
+/* Criminal Grid — CSS Grid responsive */
 .criminal-grid {
-    display: flex;
-    flex-wrap: wrap; /* Responsive */
-    gap: 30px;
-    justify-content: center; /* Centrar tarjetas */
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
     width: 100%;
+    margin-top: 28px;
 }
 
-/* Card individual */
-.criminal-card {
-    background: rgba(0, 20, 0, 0.8);
-    border: 2px solid ;
-    border-radius: 41px;
-    color: #00FF41;
-    overflow: hidden; /* Corta la imag si se sale */
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
-
-    /* Efectos en Flexbox*/
-    flex: 1 1 300px;
-    max-width: 400px;
-
-    /* flexbox intero - para alinear contenido*/
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+@media (max-width: 980px) {
+    .criminal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-.criminal-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+@media (max-width: 620px) {
+    .criminal-grid { grid-template-columns: 1fr; }
 }
 
-/* Contenedor en la foto*/
-.card-image-container {
-    width: 100%;
-    height: 600px;
-    overflow: hidden;
-    border-bottom: 2px solid #00FF41;
-    position: relative;
-}
-
-.card-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajustamos la foto */
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg) contrast(1.2); /* Efecto de nightvision*/
-}
-
-/* Efecto retro hacking*/
-.card-image-container::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: rgba(0, 255, 65, 0.8);
-    box-shadow: 0 0 10px #00FF41;
-    animation: scan 3s linear infinite;
-}
-
-
-/* Contenido del texto de la tarjeta */
-.card-content {
-    padding: 20px;
-    flex-grow: 1; /* Ocupa el espacio restante */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.card-content h3 {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.4em;
-    margin-bottom: 10px;
-}
-
-.card-content p {
-    font-size: 0.9em;
-    line-height: 1.6;
-    color: rgba(0, 255, 65, 0.8);
-    margin-bottom: 15px;
-}
+/* (clases .criminal-card y .card-content eliminadas — dashboard usa .card) */
 
 
 /* Links debajo del botón (New recruit / Forgot password) */
@@ -650,58 +639,366 @@ button:active{ transform: translateY(0); }
 
 
 
-/* separa texto y link en la misma línea */
-/* Navegación entre páginas */
-.page-nav{
-    width: 100%;
-    max-width: 450px;
+/* ================================================
+   TOAST NOTIFICATION SYSTEM
+   Posición: esquina inferior derecha
+   Animación: sube desde abajo, sale hacia abajo
+   ================================================ */
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 280px;
+    max-width: 380px;
+    padding: 14px 18px;
+
+    background: var(--surface-2);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+
+    font-family: var(--font-ui);
+    font-size: 0.9rem;
+    color: var(--text);
+
+    /* Estado inicial: invisible y desplazado hacia abajo */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+
+    pointer-events: none;
 }
 
-/*Esto es para el pop
-====== Zoom-out effect ======
-*/
-.mfp-zoom-out {
-  
-  /* start state */
-  .mfp-with-anim {
-    opacity: 0;
-    transition: all 0.3s ease-in-out; 
-    transform: scale(1.3); 
-  }
-  
-  &.mfp-bg {
-    opacity: 0;
-	  transition: all 0.3s ease-out;
-  }
-  
-  /* animate in */
-  &.mfp-ready {
-    .mfp-with-anim {
-      opacity: 1;
-      transform: scale(1); 
+/* Estado visible: animación de entrada */
+.toast.toast-show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Ícono del toast */
+.toast-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Texto del mensaje */
+.toast-msg {
+    flex: 1;
+    line-height: 1.4;
+}
+
+/* Variantes por tipo */
+.toast-success {
+    border-left-color: var(--success);
+    color: var(--success);
+}
+
+.toast-error {
+    border-left-color: var(--error);
+    color: var(--error);
+}
+
+.toast-warning {
+    border-left-color: var(--accent);
+    color: var(--accent);
+}
+
+.toast-info {
+    border-left-color: #4FC3F7;
+    color: #4FC3F7;
+}
+
+/* ================================================
+   INDICADOR DE PASOS — Registro en 2 pasos
+   ================================================ */
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.step-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.step-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+}
+
+/* Línea entre pasos */
+.step-line {
+    flex: 1;
+    max-width: 80px;
+    height: 2px;
+    background: var(--border);
+    margin: 0 8px;
+    margin-bottom: 22px;
+    transition: background 0.3s;
+}
+
+/* Paso activo */
+.step-item.active .step-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--text-on-accent);
+    box-shadow: var(--glow);
+}
+
+.step-item.active .step-label {
+    color: var(--accent);
+}
+
+/* Paso completado */
+.step-item.completed .step-dot {
+    background: var(--success);
+    border-color: var(--success);
+    color: #000;
+}
+
+.step-item.completed .step-label {
+    color: var(--success);
+}
+
+.step-item.completed ~ .step-line {
+    background: var(--success);
+}
+
+/* ================================================
+   BIENVENIDA EN DASHBOARD
+   ================================================ */
+.welcome-msg {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--success);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+    min-height: 1.2em;
+}
+
+/* Toast en móvil: ocupa todo el ancho disponible */
+@media (max-width: 480px) {
+    .toast {
+        right: 12px;
+        left: 12px;
+        min-width: unset;
+        max-width: unset;
+        bottom: 16px;
+        font-size: 0.85rem;
     }
-    &.mfp-bg {
-      opacity: 0.8;
-    }
-  }
-  
-  /* animate out */
-  &.mfp-removing {
-    
-    .mfp-with-anim {
-      transform: scale(1.3); 
-      opacity: 0;
-    }
-    &.mfp-bg {
-      opacity: 0;
-    }
-    
-  }
-  
+}
+
+/* ================================================
+   MEJORA 1 — BAT LOGO en páginas de formulario
+   ================================================ */
+
+.form-bat-logo {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.form-bat-logo svg {
+    width: 64px;
+    height: 32px;
+    color: var(--accent);
+    filter: drop-shadow(0 0 10px rgba(253,184,19,0.7));
+    animation: batPulseForm 3s ease-in-out infinite;
+}
+
+@keyframes batPulseForm {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(253,184,19,0.5)); }
+    50%       { filter: drop-shadow(0 0 18px rgba(253,184,19,0.95)); }
+}
+
+/* ================================================
+   MEJORA 2 — CHIPS DE PELIGRO con color por nivel
+   ================================================ */
+
+.chip-extreme {
+    border-color: rgba(255,71,87,0.6);
+    color: #FF4757;
+    background: rgba(255,71,87,0.1);
+}
+
+.chip-high {
+    border-color: rgba(255,165,0,0.6);
+    color: #FFA500;
+    background: rgba(255,165,0,0.1);
+}
+
+.chip-moderate {
+    border-color: rgba(253,184,19,0.6);
+    color: var(--accent);
+    background: rgba(253,184,19,0.1);
+}
+
+.card-crime {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 0;
+    border-top: 1px solid rgba(253,184,19,0.12);
+    margin-top: 4px;
+}
+
+/* ================================================
+   MEJORA 3 — TOGGLE SHOW/HIDE PASSWORD
+   ================================================ */
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* El input dentro del wrapper ocupa todo el ancho
+   y deja espacio a la derecha para el botón ojo */
+.input-wrapper input {
+    padding-right: 48px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 1rem;
+    line-height: 1;
+
+    /* Anula los estilos globales de button */
+    flex: none;
+    width: auto;
+    min-height: auto;
+    letter-spacing: normal;
+    text-transform: none;
+    font-family: var(--font-ui);
+    box-shadow: none;
+    transition: color 0.2s;
+}
+
+.toggle-password:hover {
+    color: var(--accent);
+    filter: none;
+    transform: translateY(-50%);
+}
+
+.toggle-password:focus-visible {
+    outline: 2px solid var(--accent);
+    border-radius: 4px;
+}
+
+/* ================================================
+   MEJORA 4 — HERO SECTION en home
+   ================================================ */
+
+.hero-logo {
+    margin-bottom: 12px;
+}
+
+.hero-logo svg {
+    width: 80px;
+    height: 40px;
+    color: var(--accent);
+    filter: drop-shadow(0 0 14px rgba(253,184,19,0.8));
+    animation: batPulseForm 3s ease-in-out infinite;
+}
+
+.hero-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px !important;
+}
+
+.hero-quote {
+    font-family: var(--font-ui);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(253,184,19,0.55);
+    margin-top: 10px !important;
+}
+
+/* ================================================
+   MEJORA 5 — SKELETON LOADING en dashboard
+   ================================================ */
+
+.skeleton-card {
+    pointer-events: none;
+}
+
+.skeleton-media {
+    height: 340px;
+    width: 100%;
+    background: linear-gradient(90deg,
+        var(--surface) 25%,
+        var(--surface-2) 50%,
+        var(--surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+    height: 14px;
+    border-radius: 6px;
+    background: linear-gradient(90deg,
+        var(--surface) 25%,
+        var(--surface-2) 50%,
+        var(--surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line.short  { width: 40%; }
+.skeleton-line.medium { width: 65%; }
+.skeleton-line.long   { width: 90%; }
+
+@keyframes skeletonPulse {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 /* Estilo especial para el botón de salida */
@@ -749,4 +1046,27 @@ button:active{ transform: translateY(0); }
         width: 100%; /* Ocupa todo el ancho en celulares */
     }
 }
+
+/*Para la imagen de inicio*/
+.gotham-strip {
+  width: 100%;
+  height: 420px;
+
+  background-color: #0b0f14;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(11,15,20,0.4) 0%,
+      rgba(11,15,20,0.65) 50%,
+      rgba(11,15,20,0.9) 100%
+    ),
+    url("/assets/gotica.png");
+
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
+
+  margin-top: 2rem;
+}
+
 

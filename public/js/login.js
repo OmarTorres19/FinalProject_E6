@@ -1,8 +1,25 @@
+// Toggle visibilidad de campos de contraseña
+function togglePwd(id) {
+    const input = document.getElementById(id);
+    const btn   = input.parentElement.querySelector('.toggle-password');
+    if (input.type === 'password') {
+        input.type  = 'text';
+        btn.textContent = '🙈';
+    } else {
+        input.type  = 'password';
+        btn.textContent = '👁';
+    }
+}
+
 const loginForm = document.getElementById("loginForm");
-const result = document.getElementById("result");
+const submitBtn = loginForm.querySelector('button[type="submit"]');
 
 loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Loader: desactiva botón mientras espera respuesta
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Verifying...";
 
     const data = Object.fromEntries(new FormData(loginForm));
 
@@ -15,15 +32,20 @@ loginForm.addEventListener("submit", async (e) => {
 
         const resData = await response.json();
 
-        if (resData.success){
-            result.textContent = "Access granted. Redirecting...";
+        if (resData.success) {
+            showToast("Access granted. Redirecting to Batcave...", "success");
             setTimeout(() => {
-                window.location.href = resData.redirectURL; //Nos lleva al dashboard
+                window.location.href = resData.redirectURL; // Nos lleva al dashboard
             }, 1500);
         } else {
-            result.textContent = resData.message;
+            showToast(resData.message, "error");
+            // Restaura el botón solo en caso de error
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Unlock";
         }
     } catch (error) {
-        result.textContent = "Error connecting  to the Batcave.";
+        showToast("Error connecting to the Batcave.", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Unlock";
     }
 });
