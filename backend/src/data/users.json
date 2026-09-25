@@ -22,5 +22,13 @@
     "password": "$2b$10$fALWyshXUd527.v7vcl.e.sCUpe6Lkqy1L6zJy3izmshCuIbpnTCe",
     "question": "petName",
     "passphrase": "$2b$10$fALWyshXUd527.v7vcl.e.t0rk6e7C/h38HeVUbbTgLkzxdCxuR.G"
+  },
+  {
+    "name": "Yuvia",
+    "tel": "(52)5512345678",
+    "email": "yuvia@gmail.com",
+    "password": "$2b$10$7A9.1YTiFNGpbKsuki4Zp.KjeYrzdIqC7Raa9nI/LXP2rimTB33VK",
+    "question": "favColor",
+    "passphrase": "$2b$10$7A9.1YTiFNGpbKsuki4Zp.emzq.48z9PzW.ADvN40ZVCKlGwEmHW2"
   }
 ]
