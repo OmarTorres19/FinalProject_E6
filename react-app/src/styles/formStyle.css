@@ -266,7 +266,6 @@ button:active{ transform: translateY(0); }
     letter-spacing: 1px;
     cursor: pointer;
     transition: filter .2s ease, transform .15s ease;
-    margin: 0 5px;
 }
 
 .link-btn:hover {
@@ -1068,13 +1067,6 @@ button:disabled {
   background-position: center top;
 
   margin-top: 2rem;
-}
-
-#root {
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 0;
 }
 
 
