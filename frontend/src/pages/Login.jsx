@@ -15,6 +15,9 @@ const [email, setEmail] = useState('');
   // 'password' guarda la contraseña. 'setPassword' es la función para actualizarla.
 const [password, setPassword] = useState('');
 
+//Estado para mostrar u ocultar la contraseña
+const [mostrarPassword, setMostrarPassword] = useState(false);
+
 const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(false);
 
@@ -105,7 +108,7 @@ return (
         </div>
 
         <div className="footer-links">
-        {/* Pronto instalaremos React Router para navegar sin recargar la página */}
+        {/*  */}
         <p><a href="/forgotPassword" className="bat-link">Forgot password?</a></p>
         <p><a href="/register" className="bat-link">Create new account</a></p>
         </div>
