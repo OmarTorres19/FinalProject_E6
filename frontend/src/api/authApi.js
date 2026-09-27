@@ -32,8 +32,4 @@ export async function logoutUser() {
 
   localStorage.removeItem("token");
   localStorage.removeItem("usuario");
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93

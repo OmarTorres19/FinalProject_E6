@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { useState } from "react"; // Importa useState para manejar el estado de los inputs y errores
-import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate para redirigir después del inicio de sesión
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa los iconos de react-icons
-=======
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
->>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
+import { useState } from "react"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 import { loginUser } from "../api/authApi.js";
 
@@ -15,12 +10,9 @@ function Login({ onLogin }) {
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
+  // ¡Aquí está la variable que faltaba para revivir tu pantalla!
+  const [mostrarPassword, setMostrarPassword] = useState(false);
 
-<<<<<<< HEAD
-  const [mostrarPassword, setMostrarPassword] = useState(false); //Estado para controlar la visibilidad de la contraseña
-
-=======
->>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -58,8 +50,7 @@ function Login({ onLogin }) {
           required
         />
 
-<<<<<<< HEAD
-<label htmlFor="contrasena">Contraseña:</label>
+        <label htmlFor="contrasena">Contraseña:</label>
         <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center", marginBottom: "15px" }}>
           <input
             id="contrasena"
@@ -75,7 +66,6 @@ function Login({ onLogin }) {
             type="button" 
             onClick={() => setMostrarPassword(!mostrarPassword)}
             title={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-          
             style={{ 
               position: "absolute",
               right: "10px", 
@@ -94,23 +84,9 @@ function Login({ onLogin }) {
               color: "#f5a623"
             }}
           >
-            {/* íconos de la librería*/}
             {mostrarPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
           </button>
         </div>
-
-=======
-        <label htmlFor="contrasena">Contraseña:</label>
-        <input
-          id="contrasena"
-          name="contrasena"
-          type="password"
-          value={contrasena}
-          onChange={(event) => setContrasena(event.target.value)}
-          autoComplete="current-password"
-          required
-        />
->>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 
         {error && <p role="alert">{error}</p>}
 
