@@ -31,7 +31,7 @@ export const getUserById = async (req, res) => {
 // Actualizar usuario
 export const updateUser = async (req, res) => {
   try {
-    // REGLA DE PERTENENCIA: Si es Operativo, su ID debe coincidir con el ID que intenta editar
+    // Si es Operativo, su ID debe coincidir con el ID que intenta editar
     if (req.user.rol === 'OPERATIVO' && req.user.id !== parseInt(req.params.id)) {
         return res.status(403).json({ message: "Intrusión: No tienes permiso para editar el perfil de otros usuarios." });
     }

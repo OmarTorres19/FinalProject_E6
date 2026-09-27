@@ -36,7 +36,7 @@ export const login = async (req, res) => {
       ...result, // Aquí va incluido el token
     });
   } catch (error) {
-    // Si el correo no existe o la contraseña falla, responde con error 401 (No autorizado)
+    // Si el correo no existe o la contraseña falla, responde con error 401 No autorizado
     return res.status(401).json({
       success: false,
       message: error.message,
