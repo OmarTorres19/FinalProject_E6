@@ -15,12 +15,14 @@ export const register = async (userData) => {
   if (existingUser) {
     throw new Error("El correo ya está registrado");
   }
-
+  //Contra principal 
   const hashedPassword = await bcrypt.hash(userData.contrasena, 10);
+  const hashedRespuesta = await bcrypt.hash(userData.respuestarc.trim().toLowerCase(), 10);
 
   const id = await createUser({
     ...userData,
     contrasena: hashedPassword,
+    respuestarc: hashedRespuesta,
   });
 
   return {
