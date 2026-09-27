@@ -58,11 +58,16 @@ qué falta y qué tareas dependen de cambios en el backend.
 
 ---
 
+<<<<<<< HEAD
 ## Pendiente #1: Integrar los expedientes del dashboard
+=======
+## Pendiente #1: Completar el detalle individual de expedientes
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 
 Estado actual:
 
 - `Dashboard.jsx` ya existe en React.
+<<<<<<< HEAD
 - `criminalsApi.js` intenta consultar `GET /api/criminals`.
 - La API nueva todavía no expone ese endpoint.
 - La interfaz muestra un mensaje controlado cuando el endpoint no está disponible.
@@ -71,6 +76,14 @@ Frontend pendiente:
 
 - Confirmar el contrato final de los expedientes.
 - Mostrar todos los campos definitivos.
+=======
+- `criminalsApi.js` consulta `GET /api/criminals`.
+- El backend ya expone los tres expedientes del dashboard antiguo.
+- La galería, imágenes, niveles de peligro y skeletons ya están integrados.
+
+Frontend pendiente:
+
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 - Agregar navegación al expediente individual.
 - Crear una página React para el detalle del expediente.
 - Agregar estados de imagen ausente y datos incompletos.
@@ -80,7 +93,10 @@ Dependencia del backend: **Sí**.
 Endpoints sugeridos:
 
 ```text
+<<<<<<< HEAD
 GET /api/criminals
+=======
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 GET /api/criminals/:id
 ```
 
@@ -221,7 +237,11 @@ Pruebas mínimas:
 - Token expirado.
 - Respuesta `401`.
 - Carga y error de usuarios.
+<<<<<<< HEAD
 - Edición propia y administrativa.
+=======
+- Edición administrativa.
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 - Eliminación y restauración.
 - Cierre de sesión.
 
@@ -297,7 +317,11 @@ Dependencia del backend: **No**, siempre que no se alteren sus archivos pendient
 | Confirmación de contraseña | ✅ | |
 | Pruebas unitarias | ✅ | |
 | Accesibilidad y responsive | ✅ | |
+<<<<<<< HEAD
 | Expedientes del dashboard | | ✅ |
+=======
+| Detalle individual de expedientes | | ✅ |
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 | Seguridad JWT y roles | | ✅ |
 | Respuestas sin datos sensibles | | ✅ |
 | Cambio de roles | | ✅ |
@@ -316,7 +340,11 @@ Frontend listo para producción: **55% - 60%**.
 La diferencia se debe principalmente a:
 
 - Falta de pruebas automatizadas.
+<<<<<<< HEAD
 - API de expedientes pendiente.
+=======
+- Detalle individual de expedientes pendiente.
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 - Seguridad por roles pendiente en el servidor.
 - Respuestas de usuarios con campos sensibles.
 - Despliegue real e integración E2E pendientes.
@@ -325,7 +353,11 @@ La diferencia se debe principalmente a:
 
 El frontend podrá considerarse completo cuando:
 
+<<<<<<< HEAD
 - Un operativo pueda registrarse, iniciar sesión, ver su dashboard y editarse.
+=======
+- Un operativo pueda registrarse, iniciar sesión, ver su dashboard
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 - Un administrador pueda listar, editar, eliminar y restaurar usuarios.
 - Ninguna respuesta exponga información sensible.
 - Las rutas estén protegidas tanto en React como en la API.

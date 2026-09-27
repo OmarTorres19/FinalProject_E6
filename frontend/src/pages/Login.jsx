@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { useState } from "react"; // Importa useState para manejar el estado de los inputs y errores
 import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate para redirigir después del inicio de sesión
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa los iconos de react-icons
+=======
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 
 import { loginUser } from "../api/authApi.js";
 
@@ -11,8 +16,11 @@ function Login({ onLogin }) {
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 
+<<<<<<< HEAD
   const [mostrarPassword, setMostrarPassword] = useState(false); //Estado para controlar la visibilidad de la contraseña
 
+=======
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -50,6 +58,7 @@ function Login({ onLogin }) {
           required
         />
 
+<<<<<<< HEAD
 <label htmlFor="contrasena">Contraseña:</label>
         <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center", marginBottom: "15px" }}>
           <input
@@ -90,6 +99,18 @@ function Login({ onLogin }) {
           </button>
         </div>
 
+=======
+        <label htmlFor="contrasena">Contraseña:</label>
+        <input
+          id="contrasena"
+          name="contrasena"
+          type="password"
+          value={contrasena}
+          onChange={(event) => setContrasena(event.target.value)}
+          autoComplete="current-password"
+          required
+        />
+>>>>>>> 2749adb4b6272cafc71965a0fd4387dffa5edd93
 
         {error && <p role="alert">{error}</p>}
 
