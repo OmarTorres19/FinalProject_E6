@@ -1,10 +1,35 @@
-import { apiClient } from './apiClient';
+import { apiClient } from "./apiClient";
 
-export const loginUsuario = async (email, password) => {
-  // Apunta al endpoint POST con el correo y la contraseña que el usuario ingresó en el formulario de login.
-  return await apiClient('/api/auth/login', {
-    method: 'POST',
-    // Traduce las variables de React ('email', 'password')los nombres exactos que el authController exige ('correo', 'contrasena')
-    body: JSON.stringify({ correo: email, contrasena: password }),
+export function registerUser(userData) {
+  return apiClient("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(userData),
   });
-};
+}
+
+export async function loginUser(correo, contrasena) {
+  const result = await apiClient("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({
+      correo,
+      contrasena,
+    }),
+  });
+
+  localStorage.setItem("token", result.token);
+  localStorage.setItem(
+    "usuario",
+    JSON.stringify(result.usuario),
+  );
+
+  return result;
+}
+
+export async function logoutUser() {
+  await apiClient("/auth/logout", {
+    method: "POST",
+  });
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("usuario");
+}

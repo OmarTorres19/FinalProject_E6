@@ -496,6 +496,21 @@ button:disabled {
   margin-top: auto;
   display:flex;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-actions > * {
+  flex: 1;
+}
+
+.danger-button {
+  background: linear-gradient(145deg, #52151d, #2f0b10);
+  border: 1px solid var(--danger);
+  color: #fff;
+}
+
+.danger-button:hover {
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.35);
 }
 
 .card-link {
@@ -571,6 +586,76 @@ button:disabled {
 .tab.active{
     background: linear-gradient(145deg, #FDB813, #FDC02E);
     color: #1C2526;
+}
+
+.view-toggle {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  gap: 10px;
+  margin: 18px auto 0;
+}
+
+.status-message {
+  width: 100%;
+  margin: 28px auto;
+  padding: 18px;
+  border: 1px solid rgba(253,184,19,0.25);
+  border-radius: var(--radius);
+  background: rgba(54,69,79,0.75);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.status-message.error,
+.message {
+  color: var(--error);
+}
+
+.success-message {
+  margin-top: 14px;
+  color: var(--success);
+}
+
+.table-wrapper {
+  width: 100%;
+  margin-top: 28px;
+  overflow-x: auto;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.users-table th,
+.users-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(253,184,19,0.18);
+  text-align: left;
+}
+
+.users-table th {
+  color: var(--accent);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  min-width: 230px;
+}
+
+.compact {
+  min-height: auto;
+  padding: 8px 10px;
+  font-size: 0.72rem;
 }
 
 .panel{

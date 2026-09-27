@@ -1,26 +1,31 @@
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
+export async function apiClient(endpoint, options = {}) {
+  const token = localStorage.getItem("token");
 
-// URL base del backend 
-const BASE_URL = 'http://localhost:5000/api';
-
-export const apiClient = async (endpoint, options = {}) => {
-  // Configuración estándar para enviar datos en formato JSON
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
-
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && {
+        Authorization: `Bearer ${token}`,
+      }),
+      ...options.headers,
+    },
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => null);
 
-  // Si la petición falla (ej. contraseña incorrecta), lanzamos el mensaje del backend
   if (!response.ok) {
-    throw new Error(data.message || 'Error en la petición');
+    if (response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      window.dispatchEvent(new Event("auth:unauthorized"));
+    }
+
+    throw new Error(data?.message || "Error al comunicarse con el servidor");
   }
 
   return data;
-};
+}

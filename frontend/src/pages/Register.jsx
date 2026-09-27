@@ -1,41 +1,37 @@
-import { useState } from 'react';
-import { registrarUsuario } from '../api/authApi';
-import '../styles/formStyle.css';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Register = () => {
-  // Manejará todos los campos requeridos por la base de datos 
-  const [formData, setFormData] = useState({
-    nombre: '',
-    correo: '',
-    contrasena: '',
-    preguntarc: '',
-    respuestarc: ''
-  });
-  
+import { registerUser } from "../api/authApi.js";
+
+const initialForm = {
+  nombre: "",
+  correo: "",
+  contrasena: "",
+  preguntarc: "",
+  respuestarc: "",
+};
+
+function Register() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState(initialForm);
+  const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
-  const [mensaje, setMensaje] = useState({ texto: '', tipo: '' });
 
-  // Función para actualizar cualquier campo del formulario
-  const manejarCambio = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
   };
 
-  const manejarEnvio = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
     setCargando(true);
-    setMensaje({ texto: '', tipo: '' });
 
     try {
-      // Envia el objeto con todos los datos a tu API
-      const respuesta = await registrarUsuario(formData);
-      
-      if (respuesta.success) {
-        setMensaje({ texto: '¡Registro exitoso! Ya puedes iniciar sesión.', tipo: 'exito' });
-        // Limpiamos el formulario tras un registro exitoso
-        setFormData({ nombre: '', correo: '', contrasena: '', preguntarc: '', respuestarc: '' });
-      }
-    } catch (error) {
-      setMensaje({ texto: error.message || 'Error al registrar el usuario', tipo: 'error' });
+      await registerUser(formData);
+      navigate("/login", { replace: true });
+    } catch (requestError) {
+      setError(requestError.message);
     } finally {
       setCargando(false);
     }
@@ -43,43 +39,82 @@ const Register = () => {
 
   return (
     <main className="form-container">
-      <h2>Join the <strong>Bat-Family</strong></h2>
-      
-      {/* Alertas para éxito o error */}
-      {mensaje.texto && (
-        <div style={{ color: mensaje.tipo === 'error' ? '#ff4d4d' : '#4CAF50', textAlign: 'center', marginBottom: '15px', fontWeight: 'bold' }}>
-          {mensaje.texto}
-        </div>
-      )}
+      <h2>
+        Join the <strong>Bat-Family</strong>
+      </h2>
 
-      <form onSubmit={manejarEnvio} noValidate>
-        <label htmlFor="nombre">Alias (Nombre):</label>
-        <input type="text" id="nombre" name="nombre" value={formData.nombre} onChange={manejarCambio} required />
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="nombre">Nombre:</label>
+        <input
+          id="nombre"
+          name="nombre"
+          value={formData.nombre}
+          onChange={handleChange}
+          autoComplete="name"
+          required
+        />
 
-        <label htmlFor="correo">Bat-Email (Correo):</label>
-        <input type="email" id="correo" name="correo" value={formData.correo} onChange={manejarCambio} required />
+        <label htmlFor="correo">Correo electrónico:</label>
+        <input
+          id="correo"
+          name="correo"
+          type="email"
+          value={formData.correo}
+          onChange={handleChange}
+          autoComplete="email"
+          required
+        />
 
-        <label htmlFor="contrasena">Password:</label>
-        <input type="password" id="contrasena" name="contrasena" value={formData.contrasena} onChange={manejarCambio} required />
+        <label htmlFor="contrasena">Contraseña:</label>
+        <input
+          id="contrasena"
+          name="contrasena"
+          type="password"
+          value={formData.contrasena}
+          onChange={handleChange}
+          autoComplete="new-password"
+          minLength="6"
+          required
+        />
 
-        <label htmlFor="preguntarc">Security Question:</label>
-        <input type="text" id="preguntarc" name="preguntarc" value={formData.preguntarc} onChange={manejarCambio} required placeholder="Ej: Nombre de tu primera mascota" />
+        <label htmlFor="preguntarc">Pregunta de recuperación:</label>
+        <select
+          id="preguntarc"
+          name="preguntarc"
+          value={formData.preguntarc}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecciona una opción...</option>
+          <option value="favColor">Color favorito</option>
+          <option value="petName">Nombre de tu mascota</option>
+          <option value="birthYear">Año de nacimiento</option>
+        </select>
 
-        <label htmlFor="respuestarc">Answer:</label>
-        <input type="text" id="respuestarc" name="respuestarc" value={formData.respuestarc} onChange={manejarCambio} required />
+        <label htmlFor="respuestarc">Respuesta de recuperación:</label>
+        <input
+          type="text"
+          id="respuestarc"
+          name="respuestarc"
+          value={formData.respuestarc}
+          onChange={handleChange}
+          required
+        />
+
+        {error && <p role="alert">{error}</p>}
 
         <div className="btnContainer">
           <button className="submit" type="submit" disabled={cargando}>
-            {cargando ? 'Processing...' : 'Verify ID'}
+            {cargando ? "Registrando..." : "Crear cuenta"}
           </button>
         </div>
 
-        <div className="footer-links">
-          <p><a href="/login" className="bat-link">Already have an account? Login here</a></p>
-        </div>
+        <p className="helper">
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        </p>
       </form>
     </main>
   );
-};
+}
 
 export default Register;
