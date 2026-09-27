@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import {
   getUsers,
   getUserById,
@@ -9,24 +8,30 @@ import {
   restoreUser,
 } from "../controllers/usersController.js";
 
+// 1. Importamos a tus guardias usando la sintaxis ES Modules
+import authMiddleware from "../middleware/authMiddleware.js";
+import { isAdmin, isAdminOrOperativo } from "../middleware/roleMiddleware.js";
+
 const router = Router();
 
-// Obtener todos los usuarios
-router.get("/", getUsers);
+// 2. Colocamos a los guardias según las restricciones de rol dictadas en el proyecto
 
-// Obtener usuarios eliminados
-router.get("/deleted", getDeletedUsers);
+// Obtener todos los usuarios (ADMIN: Ver todos)
+router.get("/", authMiddleware, isAdmin, getUsers);
 
-// Obtener usuario por ID
-router.get("/:id", getUserById);
+// Obtener usuarios eliminados (ADMIN: Restaurar todos)
+router.get("/deleted", authMiddleware, isAdmin, getDeletedUsers);
 
-// Actualizar usuario
-router.put("/:id", updateUser);
+// Obtener usuario por ID (OPERATIVO: Ver sus datos / ADMIN: Ver todos)
+router.get("/:id", authMiddleware, isAdminOrOperativo, getUserById);
 
-// Eliminación lógica
-router.delete("/:id", deleteUser);
+// Actualizar usuario (OPERATIVO: Modificar sus datos / ADMIN: Editar todos)
+router.put("/:id", authMiddleware, isAdminOrOperativo, updateUser);
 
-// Restaurar usuario
-router.patch("/:id/restore", restoreUser);
+// Eliminación lógica (ADMIN: Eliminar todos. Operativo no puede)
+router.delete("/:id", authMiddleware, isAdmin, deleteUser);
+
+// Restaurar usuario (ADMIN: Restaurar todos. Operativo no puede)
+router.patch("/:id/restore", authMiddleware, isAdmin, restoreUser);
 
 export default router;
