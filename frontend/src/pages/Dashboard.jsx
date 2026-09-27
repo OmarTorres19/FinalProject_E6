@@ -8,6 +8,24 @@ const dangerClasses = {
   Moderate: "chip-moderate",
 };
 
+function DashboardSkeleton() {
+  return (
+    <section className="criminal-grid" aria-label="Cargando expedientes">
+      {[1, 2, 3].map((item) => (
+        <article className="card skeleton-card" key={item}>
+          <div className="skeleton-media" />
+          <div className="card-body">
+            <div className="skeleton-line short" />
+            <div className="skeleton-line medium" />
+            <div className="skeleton-line long" />
+            <div className="skeleton-line long" />
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+}
+
 function Dashboard({ currentUser, onLogout }) {
   const [criminals, setCriminals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,11 +40,9 @@ function Dashboard({ currentUser, onLogout }) {
         if (active) {
           setCriminals(Array.isArray(result) ? result : []);
         }
-      } catch {
+      } catch (requestError) {
         if (active) {
-          setError(
-            "El dashboard ya está en React, pero la API de expedientes todavía no está disponible en el backend actual.",
-          );
+          setError(requestError.message);
         }
       } finally {
         if (active) {
@@ -59,32 +75,34 @@ function Dashboard({ currentUser, onLogout }) {
         </nav>
       </header>
 
-      {loading && <p className="status-message">Cargando expedientes...</p>}
+      {loading && <DashboardSkeleton />}
       {error && <p className="status-message error" role="alert">{error}</p>}
 
       {!loading && !error && criminals.length === 0 && (
         <p className="status-message">No hay expedientes disponibles.</p>
       )}
 
-      <section className="criminal-grid" aria-live="polite">
-        {criminals.map((criminal) => (
-          <article className="card" key={criminal.id}>
-            {criminal.image && (
-              <div className="card-media">
-                <img src={criminal.image} alt={criminal.alias || criminal.name} />
+      {!loading && !error && (
+        <section className="criminal-grid" aria-live="polite">
+          {criminals.map((criminal) => (
+            <article className="card" key={criminal.id}>
+              {criminal.image && (
+                <div className="card-media">
+                  <img src={criminal.image} alt={criminal.alias || criminal.name} />
+                </div>
+              )}
+              <div className="card-body">
+                <span className={`chip ${dangerClasses[criminal.dangerLevel] || ""}`}>
+                  ◈ Danger: {criminal.dangerLevel || "Unclassified"}
+                </span>
+                <h3>{criminal.alias || criminal.name}</h3>
+                {criminal.alias && <p><strong>Real Name:</strong> {criminal.name}</p>}
+                <p className="card-crime">⚑ Crime: {criminal.crime}</p>
               </div>
-            )}
-            <div className="card-body">
-              <span className={`chip ${dangerClasses[criminal.dangerLevel] || ""}`}>
-                Peligro: {criminal.dangerLevel || "Sin clasificar"}
-              </span>
-              <h2>{criminal.alias || criminal.name}</h2>
-              {criminal.alias && <p>Nombre real: {criminal.name}</p>}
-              <p className="card-crime">Crimen: {criminal.crime}</p>
-            </div>
-          </article>
-        ))}
-      </section>
+            </article>
+          ))}
+        </section>
+      )}
     </main>
   );
 }
