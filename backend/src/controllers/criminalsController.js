@@ -1,6 +1,36 @@
-import criminals from "../data/criminals.js";
+import {
+  getAllCriminals,
+  getCriminalById,
+} from "../models/criminalRecordModel.js";
 
-// Devuelve los expedientes necesarios para construir el dashboard.
-export const getCriminals = (req, res) => {
-  return res.status(200).json(criminals);
+// Obtener todos
+export const getCriminals = async (req, res) => {
+  try {
+    const criminals = await getAllCriminals();
+
+    res.status(200).json(criminals);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Obtener por ID
+export const getCriminal = async (req, res) => {
+  try {
+    const criminal = await getCriminalById(req.params.id);
+
+    if (!criminal) {
+      return res.status(404).json({
+        message: "Criminal no encontrado",
+      });
+    }
+
+    res.status(200).json(criminal);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
