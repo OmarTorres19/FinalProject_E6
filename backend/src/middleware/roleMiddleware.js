@@ -15,7 +15,4 @@ const isAdminOrOperativo = (req, res, next) => {
     next(); // Pasa la validación
 };
 
-module.exports = {
-    isAdmin,
-    isAdminOrOperativo
-};
+export { isAdmin, isAdminOrOperativo };
