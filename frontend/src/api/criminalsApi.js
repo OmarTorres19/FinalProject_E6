@@ -1,7 +1,15 @@
-import { apiClient } from "./apiClient.js";
+import { apiClient } from './apiClient.js';
 
-// Este endpoint conserva el contrato que utilizaba el dashboard HTML anterior.
-// La interfaz muestra un mensaje claro mientras el backend nuevo no lo exponga.
-export function getCriminals() {
-  return apiClient("/criminals");
-}
+// Función para obtener la lista de criminales mediante GET
+export const getCriminals = async () => {
+  try {
+    // Apuntamos a la ruta de criminales en tu backend
+    const response = await apiClient('/criminals', {
+      method: 'GET'
+    });
+    return response; 
+  } catch (error) {
+    console.error("Error al obtener los expedientes:", error);
+    throw error;
+  }
+};

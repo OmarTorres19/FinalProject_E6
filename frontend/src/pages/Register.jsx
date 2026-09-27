@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { registerUser } from "../api/authApi.js";
 
 const initialForm = {
@@ -14,6 +13,8 @@ const initialForm = {
 function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialForm);
+
+
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 

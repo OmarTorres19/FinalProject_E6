@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react"; // Importa useState para manejar el estado de los inputs y errores
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate para redirigir después del inicio de sesión
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa los iconos de react-icons
 
 import { loginUser } from "../api/authApi.js";
 
@@ -9,6 +10,8 @@ function Login({ onLogin }) {
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
+
+  const [mostrarPassword, setMostrarPassword] = useState(false); //Estado para controlar la visibilidad de la contraseña
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,16 +50,46 @@ function Login({ onLogin }) {
           required
         />
 
-        <label htmlFor="contrasena">Contraseña:</label>
-        <input
-          id="contrasena"
-          name="contrasena"
-          type="password"
-          value={contrasena}
-          onChange={(event) => setContrasena(event.target.value)}
-          autoComplete="current-password"
-          required
-        />
+<label htmlFor="contrasena">Contraseña:</label>
+        <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center", marginBottom: "15px" }}>
+          <input
+            id="contrasena"
+            name="contrasena"
+            type={mostrarPassword ? "text" : "password"}
+            value={contrasena}
+            onChange={(event) => setContrasena(event.target.value)}
+            autoComplete="current-password"
+            required
+            style={{ width: "100%", paddingRight: "40px", boxSizing: "border-box", margin: 0 }} 
+          />
+          <button 
+            type="button" 
+            onClick={() => setMostrarPassword(!mostrarPassword)}
+            title={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+          
+            style={{ 
+              position: "absolute",
+              right: "10px", 
+              backgroundColor: "transparent", 
+              border: "none", 
+              outline: "none",
+              boxShadow: "none",
+              cursor: "pointer", 
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "auto",
+              height: "auto",
+              color: "#f5a623"
+            }}
+          >
+            {/* íconos de la librería*/}
+            {mostrarPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+          </button>
+        </div>
+
 
         {error && <p role="alert">{error}</p>}
 
