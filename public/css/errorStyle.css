@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top, #111 0%, #000
+   60%);
+  color: #ccc;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Orbitron", sans-serif;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  animation: fadeIn 2s ease;
+}
+
+.title {
+  font-size: 96px;
+  color: #f5c542;
+  text-shadow: 0 0 15px rgba(245, 197, 66, 0.6);
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+/* Bat Signal */
+.bat-signal {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 20px;
+  background: radial-gradient(circle, #f5c542 30%, transparent 60%);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 80px rgba(245, 197, 66, 0.5);
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Batman silhouette */
+.batman {
+  width: 120px;
+  height: 60px;
+  background: black;
+  clip-path: polygon(
+    0% 50%, 10% 30%, 20% 40%, 30% 30%,
+    40% 50%, 50% 30%, 60% 50%,
+    70% 30%, 80% 40%, 90% 30%, 100% 50%,
+    80% 60%, 60% 70%, 50% 60%,
+    40% 70%, 20% 60%
+  );
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+  margin-top: 25px;
+  padding: 10px 25px;
+  background: transparent;
+  border: 2px solid #f5c542;
+  color: #f5c542;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #f5c542;
+  color: #000;
+}
+
+
+/* Animations */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 60px rgba(245, 197, 66, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 100px rgba(245, 197, 66, 0.8);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
