@@ -2,20 +2,23 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../api/authApi.js";
+import { useToast } from "../components/toastcontext.js";
 
 const initialForm = {
   nombre: "",
   correo: "",
   contrasena: "",
+  contrasena_confirmacion: "",
   preguntarc: "",
   respuestarc: "",
 };
 
 function Register() {
   const navigate = useNavigate();
+  const showToast = useToast();
   const [formData, setFormData] = useState(initialForm);
-  const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
+  const [exito, setExito] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -24,14 +27,27 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
+
+    // Evita envíos duplicados
+    if (cargando || exito) return;
+
+    // Confirmación de contraseña
+    if (formData.contrasena !== formData.contrasena_confirmacion) {
+      showToast("Las contraseñas no coinciden.", "error");
+      return;
+    }
+
     setCargando(true);
 
     try {
       await registerUser(formData);
-      navigate("/login", { replace: true });
+      setExito(true);
+      showToast("Registro exitoso. Regresando a inicio de sesión...", "success");
+      setTimeout(() => {
+        navigate("/login", { replace: true });
+      }, 2500);
     } catch (requestError) {
-      setError(requestError.message);
+      showToast(requestError.message, "error");
     } finally {
       setCargando(false);
     }
@@ -40,7 +56,7 @@ function Register() {
   return (
     <main className="form-container">
       <h2>
-        Join the <strong>Bat-Family</strong>
+        Únete a la <strong>Bat-Familia</strong>
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -77,6 +93,18 @@ function Register() {
           required
         />
 
+        <label htmlFor="contrasena_confirmacion">Confirma la contraseña:</label>
+        <input
+          id="contrasena_confirmacion"
+          name="contrasena_confirmacion"
+          type="password"
+          value={formData.contrasena_confirmacion}
+          onChange={handleChange}
+          autoComplete="new-password"
+          minLength="6"
+          required
+        />
+
         <label htmlFor="preguntarc">Pregunta de recuperación:</label>
         <select
           id="preguntarc"
@@ -101,10 +129,8 @@ function Register() {
           required
         />
 
-        {error && <p role="alert">{error}</p>}
-
         <div className="btnContainer">
-          <button className="submit" type="submit" disabled={cargando}>
+          <button className="submit" type="submit" disabled={cargando || exito}>
             {cargando ? "Registrando..." : "Crear cuenta"}
           </button>
         </div>
