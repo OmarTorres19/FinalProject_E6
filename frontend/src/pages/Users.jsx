@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { deleteUser, getUsers } from "../api/usersApi.js";
 import UserCard from "../components/UserCard.jsx";
+import ConfirmDialog from "../components/ConfirmDialog.jsx";
+import { useToast } from "../components/toastcontext.js";
 
 function Users({ currentUser, onLogout }) {
+  const showToast = useToast();
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("gallery");
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -29,22 +33,35 @@ function Users({ currentUser, onLogout }) {
     return () => { active = false; };
   }, []);
 
-  const handleDelete = async (user) => {
-    if (!window.confirm(`¿Deseas eliminar lógicamente a ${user.nombre}?`)) return;
 
-    setError("");
+  const handleDelete = (user) => {
+    if (deletingId !== null) return; 
+    setPendingDelete(user);
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete || deletingId !== null) return; 
+
+    const user = pendingDelete;
     setDeletingId(user.id);
     try {
       await deleteUser(user.id);
       setUsers((currentUsers) =>
         currentUsers.filter((current) => current.id !== user.id),
       );
+      showToast(`${user.nombre} fue eliminado.`, "success");
     } catch (requestError) {
-      setError(requestError.message);
+      showToast(requestError.message, "error");
     } finally {
       setDeletingId(null);
+      setPendingDelete(null);
     }
   };
+
+
+  const cancelDelete = useCallback(() => {
+    if (deletingId === null) setPendingDelete(null);
+  }, [deletingId]);
 
   return (
     <main className="wide-container">
@@ -124,7 +141,7 @@ function Users({ currentUser, onLogout }) {
                     <button
                       className="danger-button compact"
                       type="button"
-                      disabled={deletingId === user.id || String(user.id) === String(currentUser.id)}
+                      disabled={deletingId !== null || String(user.id) === String(currentUser.id)}
                       onClick={() => handleDelete(user)}
                     >
                       {deletingId === user.id ? "Eliminando..." : "Eliminar"}
@@ -136,6 +153,21 @@ function Users({ currentUser, onLogout }) {
           </table>
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        title="Eliminar usuario"
+        message={
+          pendingDelete
+            ? `¿Seguro que quieres eliminar a ${pendingDelete.nombre}? Podrás restaurarlo desde "Usuarios eliminados".`
+            : ""
+        }
+        confirmText="Eliminar"
+        loadingText="Eliminando..."
+        loading={deletingId !== null}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </main>
   );
 }
