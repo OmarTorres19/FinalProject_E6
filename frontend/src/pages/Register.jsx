@@ -36,6 +36,15 @@ function Register() {
       return;
     }
 
+      const tieneMayuscula =/[A-Z]/.test(formData.contrasena);
+      const tieneMinuscula =/[a-z]/.test(formData.contrasena);
+      const tieneNumero = /[0-9]/.test(formData.contrasena);
+
+      if(!tieneMayuscula || !tieneMinuscula || !tieneNumero){
+        showToast("La contraseña debe tener al menos una letra mayuscula, minuscula y un numero.","error");
+        return;
+      }
+
     setCargando(true);
 
     try {
