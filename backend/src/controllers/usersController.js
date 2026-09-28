@@ -16,26 +16,30 @@ export const getUsers = async (req, res) => {
 // Obtener usuario por ID
 export const getUserById = async (req, res) => {
   try {
-    const user = await usersService.getUser(req.params.id);
+    // Si es Operativo, su ID debe coincidir con el ID que está buscando
+    if (req.user.rol === 'OPERATIVO' && req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ message: "Privacidad: No tienes permiso para ver los datos de otra persona." });
+    }
 
+    const user = await usersService.getUser(req.params.id);
     res.status(200).json(user);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    res.status(404).json({ message: error.message });
   }
 };
 
 // Actualizar usuario
 export const updateUser = async (req, res) => {
   try {
-    const user = await usersService.updateUser(req.params.id, req.body);
+    // Si es Operativo, su ID debe coincidir con el ID que intenta editar
+    if (req.user.rol === 'OPERATIVO' && req.user.id !== parseInt(req.params.id)) {
+        return res.status(403).json({ message: "Intrusión: No tienes permiso para editar el perfil de otros usuarios." });
+    }
 
+    const user = await usersService.updateUser(req.params.id, req.body);
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({
-      message: error.message,
-    });
+    res.status(400).json({ message: error.message });
   }
 };
 

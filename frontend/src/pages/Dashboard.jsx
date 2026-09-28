@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // <-- 1. Importamos Link para la navegación
 
 import { getCriminals } from "../api/criminalsApi.js";
 
@@ -68,7 +69,6 @@ function Dashboard({ currentUser, onLogout }) {
         </p>
 
         <nav className="page-nav" aria-label="Acciones del operativo">
-
           <button className="nav-link btn-logout" onClick={onLogout}>
             Cerrar sesión
           </button>
@@ -85,21 +85,28 @@ function Dashboard({ currentUser, onLogout }) {
       {!loading && !error && (
         <section className="criminal-grid" aria-live="polite">
           {criminals.map((criminal) => (
-            <article className="card" key={criminal.id}>
-              {criminal.image && (
-                <div className="card-media">
-                  <img src={criminal.image} alt={criminal.alias || criminal.name} />
+            /* 2. Convertimos el article en un Link (o envolvemos el contenido) para ir al dossier individual */
+            <Link 
+              to={`/dossier?id=${criminal.id}`} 
+              key={criminal.id} 
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <article className="card">
+                {criminal.image && (
+                  <div className="card-media">
+                    <img src={criminal.image} alt={criminal.alias || criminal.name} />
+                  </div>
+                )}
+                <div className="card-body">
+                  <span className={`chip ${dangerClasses[criminal.dangerLevel] || ""}`}>
+                    ◈ Danger: {criminal.dangerLevel || "Unclassified"}
+                  </span>
+                  <h3>{criminal.alias || criminal.name}</h3>
+                  {criminal.alias && <p><strong>Real Name:</strong> {criminal.name}</p>}
+                  <p className="card-crime">⚑ Crime: {criminal.crime}</p>
                 </div>
-              )}
-              <div className="card-body">
-                <span className={`chip ${dangerClasses[criminal.dangerLevel] || ""}`}>
-                  ◈ Danger: {criminal.dangerLevel || "Unclassified"}
-                </span>
-                <h3>{criminal.alias || criminal.name}</h3>
-                {criminal.alias && <p><strong>Real Name:</strong> {criminal.name}</p>}
-                <p className="card-crime">⚑ Crime: {criminal.crime}</p>
-              </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </section>
       )}

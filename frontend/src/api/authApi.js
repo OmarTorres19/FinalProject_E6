@@ -1,9 +1,19 @@
 import { apiClient } from "./apiClient";
 
+const limpiarTexto = (texto = "") => texto.trim().replace(/\s+/g, " ");
+const limpiarCorreo = (correo = "") => correo.trim().toLowerCase();
+
 export function registerUser(userData) {
+  const datosLimpios ={
+    ...userData,
+    nombre: limpiarTexto(userData.nombre),
+    correo: limpiarCorreo(userData.correo),
+    respuestarc: limpiarTexto(userData.respuestarc),
+  };
+
   return apiClient("/auth/register", {
     method: "POST",
-    body: JSON.stringify(userData),
+    body: JSON.stringify(datosLimpios),
   });
 }
 
@@ -11,7 +21,7 @@ export async function loginUser(correo, contrasena) {
   const result = await apiClient("/auth/login", {
     method: "POST",
     body: JSON.stringify({
-      correo,
+      correo: limpiarCorreo(correo),
       contrasena,
     }),
   });
