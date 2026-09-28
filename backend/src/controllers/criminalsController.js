@@ -1,17 +1,36 @@
-import { getConnection } from "../config/database.js";
+import {
+  getAllCriminals,
+  getCriminalById,
+} from "../models/criminalRecordModel.js";
 
+// Obtener todos
 export const getCriminals = async (req, res) => {
   try {
-    // Conectamos a la base de datos usando tu archivo de configuración
-    const pool = await getConnection();
-    
-    // Ejecuta la consulta real para traer a los villanos
-    const result = await pool.request().query("SELECT * FROM criminals");
-    
-    // Envia los datos al frontend (la librería mssql guarda los datos en 'recordset')
-    res.status(200).json(result.recordset);
+    const criminals = await getAllCriminals();
+
+    res.status(200).json(criminals);
   } catch (error) {
-    console.error("Error al obtener criminales de la BD:", error);
-    res.status(500).json({ message: "Error interno del servidor al obtener los expedientes" });
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Obtener por ID
+export const getCriminal = async (req, res) => {
+  try {
+    const criminal = await getCriminalById(req.params.id);
+
+    if (!criminal) {
+      return res.status(404).json({
+        message: "Criminal no encontrado",
+      });
+    }
+
+    res.status(200).json(criminal);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };

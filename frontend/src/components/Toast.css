@@ -1,0 +1,40 @@
+
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.toast-container .toast {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  left: auto;
+  animation: toast-entrada 0.35s ease;
+}
+ 
+ 
+@keyframes toast-entrada {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .toast-container .toast { animation: none; }
+}
+ 
+/* En celular: ocupa todo el ancho, como en formStyle.css */
+@media (max-width: 480px) {
+  .toast-container {
+    right: 12px;
+    left: 12px;
+    top: 16px;
+    align-items: stretch;
+  }
+}
+ 
