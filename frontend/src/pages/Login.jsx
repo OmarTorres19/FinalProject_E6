@@ -10,7 +10,7 @@ function Login({ onLogin }) {
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
-  // ¡Aquí está la variable que faltaba para revivir tu pantalla!
+  
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
   const handleSubmit = async (event) => {
