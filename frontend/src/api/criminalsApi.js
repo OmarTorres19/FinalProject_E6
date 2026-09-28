@@ -1,16 +1,9 @@
-import { apiClient } from './apiClient.js';
+import { apiClient } from "./apiClient"; // Asegúrate de importar con llaves si se exportó nombrada
 
-// Conectamos directamente con el backend real en lugar de usar datos de prueba
 export const getCriminals = async () => {
-  try {
-    const response = await apiClient('/criminals', {
-      method: 'GET'
-    });
-    return response; 
-  } catch (error) {
-    console.error("Error al obtener los expedientes:", error);
-    throw error;
-  }
+  return await apiClient("/criminals");
 };
 
-
+export const getCriminalById = async (id) => {
+  return await apiClient(`/criminals/${id}`);
+};

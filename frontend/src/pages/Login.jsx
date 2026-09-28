@@ -3,30 +3,36 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 import { loginUser } from "../api/authApi.js";
+import { useToast } from "../components/toastcontext.js";
 
 function Login({ onLogin }) {
   const navigate = useNavigate();
+  const showToast = useToast();
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
   // ¡Aquí está la variable que faltaba para revivir tu pantalla!
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
+
+    
+    if (cargando) return;
+
     setCargando(true);
 
     try {
       const result = await loginUser(correo, contrasena);
+      showToast(`Bienvenido, ${result.usuario.nombre}.`, "success");
       onLogin(result.usuario);
       navigate(
         result.usuario.rol === "ADMIN" ? "/users" : "/dashboard",
         { replace: true },
       );
     } catch (requestError) {
-      setError(requestError.message);
+      // apiClient.js decide qué mensaje mostrar
+      showToast(requestError.message, "error");
     } finally {
       setCargando(false);
     }
@@ -35,7 +41,7 @@ function Login({ onLogin }) {
   return (
     <main className="form-container">
       <h2>
-        Access <strong>BatFiles</strong>
+        Accede a <strong>BatFiles</strong>
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -87,8 +93,6 @@ function Login({ onLogin }) {
             {mostrarPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
           </button>
         </div>
-
-        {error && <p role="alert">{error}</p>}
 
         <div className="btnContainer">
           <button className="submit" type="submit" disabled={cargando}>
