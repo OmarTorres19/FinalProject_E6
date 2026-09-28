@@ -1154,4 +1154,15 @@ button:disabled {
   margin-top: 2rem;
 }
 
+.exito{
+
+    margin-top: 14px;
+    margin-bottom: 8px;
+    color: #00FF41;
+    font-size: var(--fs-label);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 
