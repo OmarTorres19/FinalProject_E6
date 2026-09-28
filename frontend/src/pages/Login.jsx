@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
 import { loginUser } from "../api/authApi.js";
 import { useToast } from "../components/toastcontext.js";
@@ -10,6 +11,8 @@ function Login({ onLogin }) {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [cargando, setCargando] = useState(false);
+  
+  const [mostrarPassword, setMostrarPassword] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,15 +57,42 @@ function Login({ onLogin }) {
         />
 
         <label htmlFor="contrasena">Contraseña:</label>
-        <input
-          id="contrasena"
-          name="contrasena"
-          type="password"
-          value={contrasena}
-          onChange={(event) => setContrasena(event.target.value)}
-          autoComplete="current-password"
-          required
-        />
+        <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center", marginBottom: "15px" }}>
+          <input
+            id="contrasena"
+            name="contrasena"
+            type={mostrarPassword ? "text" : "password"}
+            value={contrasena}
+            onChange={(event) => setContrasena(event.target.value)}
+            autoComplete="current-password"
+            required
+            style={{ width: "100%", paddingRight: "40px", boxSizing: "border-box", margin: 0 }} 
+          />
+          <button 
+            type="button" 
+            onClick={() => setMostrarPassword(!mostrarPassword)}
+            title={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            style={{ 
+              position: "absolute",
+              right: "10px", 
+              backgroundColor: "transparent", 
+              border: "none", 
+              outline: "none",
+              boxShadow: "none",
+              cursor: "pointer", 
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "auto",
+              height: "auto",
+              color: "#f5a623"
+            }}
+          >
+            {mostrarPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+          </button>
+        </div>
 
         <div className="btnContainer">
           <button className="submit" type="submit" disabled={cargando}>

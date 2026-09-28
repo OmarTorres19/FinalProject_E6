@@ -82,6 +82,9 @@ function Users({ currentUser, onLogout }) {
             Cerrar sesión
           </button>
         </nav>
+        <Link className="nav-link" to="/dashboard">
+            Ver criminales
+          </Link>
 
         <div className="view-toggle" aria-label="Presentación de usuarios">
           <button

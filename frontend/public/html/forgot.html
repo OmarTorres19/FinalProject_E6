@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="../css/formStyle.css" type="text/css" />
+</head>
+
+<body>
+    <main class="form-container">
+        <h2>Reset your BatPassword</h2>
+        <form id="forgotForm" method="POST" novalidate>
+         <!-- Step 1: Valida email, pregunta y respuesta secreta -->
+            <div id="step-1"></div>
+                <label for="email">Enter your email address:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="question">Security question:</label>
+                    <select id="question" name="question" required>
+                        <option value="">Select a question...</option>
+                        <option value="favColor">Favorite color</option>
+                        <option value="petName">Pet's name</option>
+                        <option value="birthYear">Year of birth</option>
+                    </select>
+                    <span class="message" id="error-question"></span>
+
+                <div class="btnContainer">
+                    <button class="submit" type="submit">Verify</button>
+                    <a class="reset link-btn" href="/login">Back to login</a>
+                </div>
+            </div>
+
+             <!-- Step 2: Si la verificación es exitosa, mostrar campos para nueva contraseña -->
+             <div id="step-2" class="hidden"></div>
+                <label for="newpassword">New password:</label>
+                <input id="newPassword" name="newPassword" type="password" required pattern="[a-zA-Z0-9]{8,}">
+                <label for="passphrase">Security Batpassphrase</label>
+                <input type="text" id="passphrase" name="passphrase" required
+                    placeholder="Your secret answer">
+                <span class="message" id="error-passphrase"></span>
+
+
+                <div class="footer-links">
+                    <p>Remembered your password? <a href="/login" class="bat-link">Back to login</a></p>
+                </div>
+        </form>
+
+        <p id="result" class="message"></p>
+    </main>
+
+    <script src="/js/forgot.js"></script>
+    
+</body>
+</html>

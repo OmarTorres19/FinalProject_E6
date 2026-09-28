@@ -13,7 +13,7 @@ export function registerUser(userData) {
 
   return apiClient("/auth/register", {
     method: "POST",
-    body: JSON.stringify(userData),
+    body: JSON.stringify(datosLimpios),
   });
 }
 
@@ -21,7 +21,7 @@ export async function loginUser(correo, contrasena) {
   const result = await apiClient("/auth/login", {
     method: "POST",
     body: JSON.stringify({
-      correo,
+      correo: limpiarCorreo(correo),
       contrasena,
     }),
   });

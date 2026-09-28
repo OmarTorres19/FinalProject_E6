@@ -17,6 +17,7 @@ import Dossier from "./pages/Dossier.jsx"; // Componente del Dossier
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import { logoutUser } from "./api/authApi.js";
+import NotFound from "./pages/NotFound.jsx";
 
 function clearStoredSession() {
   localStorage.removeItem("token");
@@ -195,7 +196,7 @@ function App() {
             </AdminRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
