@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient"; // Asegúrate de importar con llaves si se exportó nombrada
+import { apiClient } from "./apiClient";
 
 export const getCriminals = async () => {
   return await apiClient("/criminals");

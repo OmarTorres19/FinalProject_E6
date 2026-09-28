@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Users from "./pages/Users.jsx";
 import EditUser from "./pages/EditUser.jsx";
 import DeletedUsers from "./pages/DeletedUsers.jsx";
+import Dossier from "./pages/Dossier.jsx"; // Componente del Dossier
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import { logoutUser } from "./api/authApi.js";
@@ -67,7 +68,7 @@ function readStoredUser() {
 }
 
 function App() {
-  // App es el único propietario del estado global de autenticación.
+  // App adalah el único propietario del estado global de autenticación.
   const [currentUser, setCurrentUser] = useState(readStoredUser);
 
   // apiClient emite este evento cuando el servidor rechaza el JWT.
@@ -153,6 +154,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+        
+        {/* <-- 2. Agregamos la ruta protegida para el Dossier de Criminales --> */}
+        <Route
+          path="/dossier"
+          element={
+            <ProtectedRoute user={currentUser}>
+              <Dossier />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/users"
           element={
