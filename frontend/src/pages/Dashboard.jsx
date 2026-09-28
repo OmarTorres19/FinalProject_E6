@@ -69,6 +69,12 @@ function Dashboard({ currentUser, onLogout }) {
         </p>
 
         <nav className="page-nav" aria-label="Acciones del operativo">
+          // botón para editar el propio perfil del usuario
+          <Link className="nav-link" to={`/users/${currentUser.id}/edit`}>
+            Editar mi perfil
+          </Link>
+
+          
           <button className="nav-link btn-logout" onClick={onLogout}>
             Cerrar sesión
           </button>

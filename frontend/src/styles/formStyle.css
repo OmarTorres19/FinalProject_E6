@@ -379,6 +379,7 @@ button:disabled {
 /* Botón de cierre de sesión en el dashboard */
 .btn-logout {
   display: inline-block;
+  width: auto;
   margin-top: 16px;
   padding: 8px 20px;
   background: transparent;
