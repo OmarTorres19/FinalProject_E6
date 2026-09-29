@@ -94,16 +94,27 @@ export const getUserById = async (id) => {
 // ACTUALIZAR USUARIO POR ID
 export const updateUserById = async (id, user) => {
   const pool = await getConnection();
-  const result = await pool
+  const request = pool
     .request()
     .input("id", id)
     .input("nombre", user.nombre)
-    .input("correo", user.correo).query(`
-        UPDATE users
-        SET nombre = @nombre, correo = @correo
-        WHERE id = @id AND eliminado = 0;   
+    .input("correo", user.correo);
 
-        SELECT *
+  // Siempre se actualizan nombre y correo
+  let campos = "nombre = @nombre, correo = @correo";
+
+  // La contraseña solo se actualiza si llegó una nueva (ya encriptada)
+  if (user.contrasena) {
+    request.input("contrasena", user.contrasena);
+    campos += ", contrasena = @contrasena";
+  }
+
+  const result = await request.query(`
+        UPDATE users
+        SET ${campos}
+        WHERE id = @id AND eliminado = 0;
+
+        SELECT id, nombre, correo, rol
         FROM users
         WHERE id = @id;
     `);
@@ -142,5 +153,3 @@ export const restoreUserById = async (id) => {
     `);
   return { message: "Usuario restaurado lógicamente" };
 };
-
-//

@@ -3,12 +3,15 @@ import { Link, Navigate, useParams } from "react-router-dom";
 
 import { getUserById, updateUser } from "../api/usersApi.js";
 
+const passwordsVacias = { contrasena: "", contrasena_confirmacion: "" };
+
 function EditUser({ currentUser, onCurrentUserUpdated }) {
   const { id } = useParams();
   const isAdmin = currentUser.rol === "ADMIN";
   const isOwnProfile = String(currentUser.id) === id;
   const returnPath = isAdmin ? "/users" : "/dashboard";
   const [formData, setFormData] = useState({ nombre: "", correo: "" });
+  const [passwords, setPasswords] = useState(passwordsVacias);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -45,16 +48,60 @@ function EditUser({ currentUser, onCurrentUserUpdated }) {
     setFormData((current) => ({ ...current, [name]: value }));
   };
 
+  // Campos de la nueva contraseña (se guardan aparte)
+  const handlePasswordChange = (event) => {
+    const { name, value } = event.target;
+    setPasswords((current) => ({ ...current, [name]: value }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (saving) return;
+
     setError("");
     setSuccess("");
+
+    const quiereCambiarContrasena =
+      passwords.contrasena !== "" || passwords.contrasena_confirmacion !== "";
+
+    // Solo se revisa la contraseña si el usuario escribió una nueva
+    if (quiereCambiarContrasena) {
+      if (passwords.contrasena !== passwords.contrasena_confirmacion) {
+        setError("Las contraseñas no coinciden.");
+        return;
+      }
+
+      if (passwords.contrasena.length < 6) {
+        setError("La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+
+      const tieneMayuscula = /[A-Z]/.test(passwords.contrasena);
+      const tieneMinuscula = /[a-z]/.test(passwords.contrasena);
+      const tieneNumero = /[0-9]/.test(passwords.contrasena);
+
+      if (!tieneMayuscula || !tieneMinuscula || !tieneNumero) {
+        setError("La contraseña debe tener al menos una letra mayúscula,una minúscula y un numero");
+        return;
+      }
+    }
+
+    // Se envían nombre y correo; la contraseña solo si se escribió una nueva
+    const datos = quiereCambiarContrasena
+      ? { ...formData, contrasena: passwords.contrasena }
+      : formData;
+
     setSaving(true);
 
     try {
-      const updatedUser = await updateUser(id, formData);
+      const updatedUser = await updateUser(id, datos);
       onCurrentUserUpdated(updatedUser);
-      setSuccess("Usuario actualizado correctamente.");
+      setPasswords(passwordsVacias);
+      setSuccess(
+        quiereCambiarContrasena
+          ? "Usuario y contraseña actualizados correctamente."
+          : "Usuario actualizado correctamente.",
+      );
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -88,6 +135,31 @@ function EditUser({ currentUser, onCurrentUserUpdated }) {
             onChange={handleChange}
             required
           />
+
+          <label htmlFor="contrasena">Nueva contraseña:</label>
+          <input
+            id="contrasena"
+            name="contrasena"
+            type="password"
+            value={passwords.contrasena}
+            onChange={handlePasswordChange}
+            autoComplete="new-password"
+          />
+
+          <label htmlFor="contrasena_confirmacion">Confirma la nueva contraseña:</label>
+          <input
+            id="contrasena_confirmacion"
+            name="contrasena_confirmacion"
+            type="password"
+            value={passwords.contrasena_confirmacion}
+            onChange={handlePasswordChange}
+            autoComplete="new-password"
+          />
+
+          <p className="hint">
+            Déjala vacía si no quieres cambiarla. Debe tener al menos 6 caracteres,
+            una mayúscula, una minúscula y un número.
+          </p>
 
           {error && <p className="message" role="alert">{error}</p>}
           {success && <p className="success-message" role="status">{success}</p>}

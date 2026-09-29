@@ -215,6 +215,16 @@ select option:checked{
     margin-top: 22px;
     display: flex;
     gap: var(--gap);
+    align-items: stretch;
+}
+
+.btnContainer > * {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 button {
@@ -379,6 +389,7 @@ button:disabled {
 /* Botón de cierre de sesión en el dashboard */
 .btn-logout {
   display: inline-block;
+  width: auto;
   margin-top: 16px;
   padding: 8px 20px;
   background: transparent;
@@ -497,10 +508,16 @@ button:disabled {
   display:flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .card-actions > * {
   flex: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
 }
 
 .danger-button {
@@ -540,7 +557,7 @@ button:disabled {
     max-width: var(--container);
     display: flex;
     gap: 10px;
-    margin: 10px 0 18px;
+    margin: 10px auto 18px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -650,6 +667,15 @@ button:disabled {
   display: flex;
   gap: 8px;
   min-width: 230px;
+  align-items: stretch;
+}
+
+.table-actions > * {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .compact {
@@ -1117,6 +1143,16 @@ button:disabled {
     box-shadow: 0 0 15px var(--danger);
     transform: scale(1.05);
     text-decoration: none;
+}
+
+/*Pantalla mediana*/
+@media (max-width: 900px){
+    .btn-logout-top{
+        position: static;
+        display: block;
+        width: fit-content;
+        margin: 0 0 16px auto;
+    }
 }
 
 /* Ajuste para pantallas pequeñas (móviles) */

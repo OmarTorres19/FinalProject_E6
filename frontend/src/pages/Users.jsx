@@ -16,7 +16,7 @@ function Users({ currentUser, onLogout }) {
   const [error, setError] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null);
 
-  // cargar los usuarios al entrar a la pantalla
+  // 1. Efecto para cargar los usuarios al entrar a la pantalla
   useEffect(() => {
     let active = true;
 
@@ -35,7 +35,7 @@ function Users({ currentUser, onLogout }) {
     return () => { active = false; };
   }, []);
 
-  // Modo Simulador
+  // 2. Lógica del Modo Simulador
   const handleSwitchRole = async () => {
     try {
       const response = await switchRoleSimulation();
@@ -52,7 +52,7 @@ function Users({ currentUser, onLogout }) {
     }
   };
 
-  //Lógica de Eliminación
+  // 3. Lógica de Eliminación (Arkham Protocol)
   const handleDelete = (user) => {
     if (deletingId !== null) return; 
     setPendingDelete(user);
@@ -90,7 +90,7 @@ function Users({ currentUser, onLogout }) {
           Administrador: {currentUser.nombre} · {currentUser.rol}
         </p>
 
-        {/* Se corrige el problema visual de botones */}
+        {/* CONSOLA DE MANDO UNIFICADA: Aquí corregimos el problema visual */}
         <nav className="page-nav" aria-label="Acciones de administración" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>
           <Link className="nav-link" to={`/users/${currentUser.id}/edit`}>
             Editar mi perfil
