@@ -107,7 +107,7 @@ function Users({ currentUser, onLogout }) {
         <button
         className="btn-logout btn-logout-top"
         type="button"
-        onclick={onLogout}
+        onClick={onLogout}
         >
           Cerrar Sesión
         </button>
