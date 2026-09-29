@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { deleteUser, getUsers } from "../api/usersApi.js";
+import { changeUserRole, deleteUser, getUsers } from "../api/usersApi.js";
 import UserCard from "../components/UserCard.jsx";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
 import { useToast } from "../components/toastcontext.js";
+
 
 function Users({ currentUser, onLogout }) {
   const showToast = useToast();
@@ -14,6 +15,8 @@ function Users({ currentUser, onLogout }) {
   const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [pendingRole, setPendingRole] = useState(null);
+  const [changingRoleId, setChangingRoleId] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -58,6 +61,41 @@ function Users({ currentUser, onLogout }) {
     }
   };
 
+ // El admin pulsa el botón: guardamos a quién y a qué rol, y abrimos el diálogo
+  const handleRoleChange = (user) => {
+    if (changingRoleId !== null) return;
+    const nuevoRol = user.rol === "ADMIN" ? "OPERATIVO" : "ADMIN";
+    setPendingRole({ user, nuevoRol });
+  };
+
+  //  Llamamos a la API y actualizamos la lista sin recargar la página
+  const confirmRoleChange = async () => {
+    if (!pendingRole || changingRoleId !== null) return;
+
+    const { user, nuevoRol } = pendingRole;
+    setChangingRoleId(user.id);
+    try {
+      await changeUserRole(user.id, nuevoRol);
+      setUsers((currentUsers) =>
+        currentUsers.map((current) =>
+          current.id === user.id ? { ...current, rol: nuevoRol } : current,
+        ),
+      );
+      showToast(
+        `${user.nombre} ahora es ${nuevoRol === "ADMIN" ? "administrador" : "operativo"}.`,
+        "success",
+      );
+    } catch (requestError) {
+      showToast(requestError.message, "error");
+    } finally {
+      setChangingRoleId(null);
+      setPendingRole(null);
+    }
+  };
+
+  const cancelRoleChange = useCallback(() => {
+    if (changingRoleId === null) setPendingRole(null);
+  }, [changingRoleId]);
 
   const cancelDelete = useCallback(() => {
     if (deletingId === null) setPendingDelete(null);
@@ -123,7 +161,9 @@ function Users({ currentUser, onLogout }) {
               user={user}
               currentUser={currentUser}
               deleting={deletingId === user.id}
+              changingRole={changingRoleId === user.id}
               onDelete={handleDelete}
+              onRoleChange={handleRoleChange}
             />
           ))}
         </section>
@@ -143,6 +183,16 @@ function Users({ currentUser, onLogout }) {
                   <td>{user.correo}</td>
                   <td>{user.rol}</td>
                   <td className="table-actions">
+
+                    <button
+                      className="link-btn compact"
+                      type="button"
+                      disabled={changingRoleId !== null || String(user.id) === String(currentUser.id)}
+                      onClick={() => handleRoleChange(user)}
+                    >
+                      {user.rol === "ADMIN" ? "Hacer operativo" : "Hacer administrador"}
+                    </button>
+
                     <Link className="link-btn compact" to={`/users/${user.id}/edit`}>
                       Editar
                     </Link>
@@ -176,6 +226,24 @@ function Users({ currentUser, onLogout }) {
         onConfirm={confirmDelete}
         onCancel={cancelDelete}
       />
+
+      <ConfirmDialog
+        open={pendingRole !== null}
+        title="Cambiar rol"
+        message={
+          pendingRole
+            ? `¿Seguro que quieres convertir a ${pendingRole.user.nombre} en ${
+                pendingRole.nuevoRol === "ADMIN" ? "administrador" : "operativo"
+              }?`
+            : ""
+        }
+        confirmText="Cambiar rol"
+        loadingText="Cambiando..."
+        loading={changingRoleId !== null}
+        onConfirm={confirmRoleChange}
+        onCancel={cancelRoleChange}
+      />
+
     </main>
   );
 }

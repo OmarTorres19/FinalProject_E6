@@ -1202,3 +1202,7 @@ button:disabled {
 }
 
 
+/* Botón "Hacer administrador / operativo": ocupa toda la fila de la tarjeta */
+.card-actions > .role-button {
+  flex: 1 1 100%;
+}

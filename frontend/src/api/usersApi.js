@@ -30,3 +30,9 @@ export function restoreUser(id) {
     method: "PATCH",
   });
 }
+export function changeUserRole(id, rol) {
+  return apiClient(`/users/${id}/role`, {
+    method: "PATCH",
+    body: JSON.stringify({ rol }),
+  });
+}
