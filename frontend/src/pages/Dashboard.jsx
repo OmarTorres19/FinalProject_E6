@@ -62,6 +62,12 @@ function Dashboard({ currentUser, onLogout }) {
   return (
     <main className="wide-container">
       <header className="hero">
+         <button className="btn-logout btn-logout-top" 
+         type="button"
+         onClick={onLogout}
+         >
+            Cerrar sesión
+          </button>
         <h1>Gotham Most Wanted</h1>
         <p>Accessing Arkham Asylum Criminal Files...</p>
         <p className="welcome-msg">
@@ -75,9 +81,6 @@ function Dashboard({ currentUser, onLogout }) {
           </Link>
 
           
-          <button className="nav-link btn-logout" onClick={onLogout}>
-            Cerrar sesión
-          </button>
         </nav>
       </header>
 
