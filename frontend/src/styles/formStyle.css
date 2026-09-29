@@ -647,12 +647,6 @@ button:disabled {
   text-transform: uppercase;
 }
 
-.table-actions {
-  display: flex;
-  gap: 8px;
-  min-width: 230px;
-}
-
 .compact {
   min-height: auto;
   padding: 8px 10px;
