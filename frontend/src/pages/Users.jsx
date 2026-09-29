@@ -66,6 +66,13 @@ function Users({ currentUser, onLogout }) {
   return (
     <main className="wide-container">
       <header className="hero">
+        <button
+        className="btn-logout btn-logout-top"
+        type="button"
+        onclick={onLogout}
+        >
+          Cerrar Sesión
+        </button>
         <h1>Administración de usuarios</h1>
         <p className="welcome-msg">
           Administrador: {currentUser.nombre} · {currentUser.rol}
@@ -78,13 +85,11 @@ function Users({ currentUser, onLogout }) {
           <Link className="nav-link" to="/users/deleted">
             Usuarios eliminados
           </Link>
-          <button className="nav-link btn-logout" onClick={onLogout}>
-            Cerrar sesión
-          </button>
-        </nav>
+      
         <Link className="nav-link" to="/dashboard">
             Ver criminales
           </Link>
+        </nav>
 
         <div className="view-toggle" aria-label="Presentación de usuarios">
           <button
