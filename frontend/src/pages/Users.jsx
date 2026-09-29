@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { deleteUser, getUsers } from "../api/usersApi.js";
+// Unificamos las importaciones de la API en una sola línea
+import { deleteUser, getUsers, switchRoleSimulation } from "../api/usersApi.js"; 
 import UserCard from "../components/UserCard.jsx";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
 import { useToast } from "../components/toastcontext.js";
@@ -15,6 +16,7 @@ function Users({ currentUser, onLogout }) {
   const [error, setError] = useState("");
   const [pendingDelete, setPendingDelete] = useState(null);
 
+  // cargar los usuarios al entrar a la pantalla
   useEffect(() => {
     let active = true;
 
@@ -33,7 +35,24 @@ function Users({ currentUser, onLogout }) {
     return () => { active = false; };
   }, []);
 
+  // Modo Simulador
+  const handleSwitchRole = async () => {
+    try {
+      const response = await switchRoleSimulation();
+      
+      localStorage.setItem('token', response.token);
+      
+      const updatedUser = { ...currentUser, rol: response.newRole };
+      localStorage.setItem('usuario', JSON.stringify(updatedUser));
 
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Fallo al cambiar de rol:", error);
+      showToast("Error al activar el Modo Simulador", "error");
+    }
+  };
+
+  //Lógica de Eliminación
   const handleDelete = (user) => {
     if (deletingId !== null) return; 
     setPendingDelete(user);
@@ -46,10 +65,11 @@ function Users({ currentUser, onLogout }) {
     setDeletingId(user.id);
     try {
       await deleteUser(user.id);
+      
       setUsers((currentUsers) =>
         currentUsers.filter((current) => current.id !== user.id),
       );
-      showToast(`${user.nombre} fue eliminado.`, "success");
+      showToast(`${user.nombre} fue eliminado de los registros.`, "success");
     } catch (requestError) {
       showToast(requestError.message, "error");
     } finally {
@@ -57,7 +77,6 @@ function Users({ currentUser, onLogout }) {
       setPendingDelete(null);
     }
   };
-
 
   const cancelDelete = useCallback(() => {
     if (deletingId === null) setPendingDelete(null);
@@ -71,21 +90,32 @@ function Users({ currentUser, onLogout }) {
           Administrador: {currentUser.nombre} · {currentUser.rol}
         </p>
 
-        <nav className="page-nav" aria-label="Acciones de administración">
+        {/* Se corrige el problema visual de botones */}
+        <nav className="page-nav" aria-label="Acciones de administración" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>
           <Link className="nav-link" to={`/users/${currentUser.id}/edit`}>
             Editar mi perfil
           </Link>
           <Link className="nav-link" to="/users/deleted">
             Usuarios eliminados
           </Link>
+          <Link className="nav-link" to="/dashboard">
+            Ver criminales
+          </Link>
+          
+          <button 
+            className="nav-link" 
+            onClick={handleSwitchRole}
+            style={{ border: '1px solid #ffcc00', color: '#ffcc00' }}
+          >
+            Modo Simulador ({currentUser.rol === 'ADMIN' ? 'Operativo' : 'Admin'})
+          </button>
+
           <button className="nav-link btn-logout" onClick={onLogout}>
             Cerrar sesión
           </button>
         </nav>
-        <Link className="nav-link" to="/dashboard">
-            Ver criminales
-          </Link>
 
+        {/* Interruptor de vistas (Galería / Tabla) */}
         <div className="view-toggle" aria-label="Presentación de usuarios">
           <button
             className={view === "gallery" ? "tab active" : "tab"}
@@ -104,12 +134,14 @@ function Users({ currentUser, onLogout }) {
         </div>
       </header>
 
+      {/* Estados de carga y error */}
       {loading && <p className="status-message">Cargando usuarios...</p>}
       {error && <p className="status-message error" role="alert">{error}</p>}
       {!loading && !error && users.length === 0 && (
         <p className="status-message">No hay usuarios activos.</p>
       )}
 
+      {/* VISTA 1: Galería de Tarjetas */}
       {!loading && users.length > 0 && view === "gallery" && (
         <section className="card-grid" aria-live="polite">
           {users.map((user) => (
@@ -124,6 +156,7 @@ function Users({ currentUser, onLogout }) {
         </section>
       )}
 
+      {/* VISTA 2: Tabla de Datos */}
       {!loading && users.length > 0 && view === "table" && (
         <div className="table-wrapper">
           <table className="users-table">
@@ -157,6 +190,7 @@ function Users({ currentUser, onLogout }) {
         </div>
       )}
 
+      {/* Modal de Confirmación */}
       <ConfirmDialog
         open={pendingDelete !== null}
         title="Eliminar usuario"

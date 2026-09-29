@@ -30,3 +30,9 @@ export function restoreUser(id) {
     method: "PATCH",
   });
 }
+
+export function switchRoleSimulation() {
+  return apiClient("/users/switch-role", {
+    method: "POST",
+  });
+}

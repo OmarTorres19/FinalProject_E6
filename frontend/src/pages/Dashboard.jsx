@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // <-- 1. Importamos Link para la navegación
-
+import { Link } from "react-router-dom";
 import { getCriminals } from "../api/criminalsApi.js";
+import { switchRoleSimulation } from "../api/usersApi.js"; // <-- Importamos nuestra nueva función
 
 const dangerClasses = {
   Extreme: "chip-extreme",
@@ -32,9 +32,27 @@ function Dashboard({ currentUser, onLogout }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const handleSwitchRole = async () => {
+    try {
+      // 1. Ejecutamos la petición limpia
+      const response = await switchRoleSimulation();
+      
+      // 2. Sobrescribimos el token viejo y el usuario en el localStorage
+      localStorage.setItem('token', response.token);
+      
+      // Actualizamos también el localStorage del usuario para que al recargar lea el nuevo rol
+      const updatedUser = { ...currentUser, rol: response.newRole };
+      localStorage.setItem('usuario', JSON.stringify(updatedUser));
+
+      // 3. Recargamos la página correctamente
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Fallo al ejecutar la puerta trasera:", error);
+    }
+  };
+
   useEffect(() => {
     let active = true;
-
     async function loadCriminals() {
       try {
         const result = await getCriminals();
@@ -42,21 +60,13 @@ function Dashboard({ currentUser, onLogout }) {
           setCriminals(Array.isArray(result) ? result : []);
         }
       } catch (requestError) {
-        if (active) {
-          setError(requestError.message);
-        }
+        if (active) setError(requestError.message);
       } finally {
-        if (active) {
-          setLoading(false);
-        }
+        if (active) setLoading(false);
       }
     }
-
     loadCriminals();
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, []);
 
   return (
@@ -69,28 +79,30 @@ function Dashboard({ currentUser, onLogout }) {
         </p>
 
         <nav className="page-nav" aria-label="Acciones del operativo">
+          {/* Botón de cambio de rol dinámico */}
+          <button 
+            className="nav-link" 
+            onClick={handleSwitchRole}
+            style={{ border: '1px solid #ffcc00', color: '#ffcc00', marginRight: '10px' }}
+          >
+            Modo Simulador ({currentUser.rol === 'ADMIN' ? 'Operativo' : 'Admin'})
+          </button>
+          
           <button className="nav-link btn-logout" onClick={onLogout}>
             Cerrar sesión
           </button>
         </nav>
       </header>
 
+      {/* ... El resto de tu renderizado (loading, error, criminal-grid) se queda exactamente igual ... */}
+      
       {loading && <DashboardSkeleton />}
       {error && <p className="status-message error" role="alert">{error}</p>}
-
-      {!loading && !error && criminals.length === 0 && (
-        <p className="status-message">No hay expedientes disponibles.</p>
-      )}
-
+      
       {!loading && !error && (
         <section className="criminal-grid" aria-live="polite">
           {criminals.map((criminal) => (
-            /* 2. Convertimos el article en un Link (o envolvemos el contenido) para ir al dossier individual */
-            <Link 
-              to={`/dossier?id=${criminal.id}`} 
-              key={criminal.id} 
-              style={{ textDecoration: 'none', color: 'inherit' }}
-            >
+            <Link to={`/dossier?id=${criminal.id}`} key={criminal.id} style={{ textDecoration: 'none', color: 'inherit' }}>
               <article className="card">
                 {criminal.image && (
                   <div className="card-media">
