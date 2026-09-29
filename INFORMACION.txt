@@ -1,0 +1,11 @@
+Aquí se encuentra el código para el proyecto final (incluyendo las correcciones acerca del botón que permite al usuario
+cambiar de rol entre admin y operativo y el cambio estético de los botones, así como el funcionamiento de los parámetros para la contraseña (integración
+de números, mayúsculas y minúsculas para la validación de la misma).
+
+Los integrantes del equipo son:
+Bazaldua Montoya José Juan
+Bernal Aguilar Yuvia Abigail
+Gallegos Lozano Karen scarlett
+Gonzalez Vazquez Rodrigo
+Mulato Romero Jazmin Haydee
+Torres Villanueva Omar
