@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 import {
   getAllUsers,
   getUserById,
@@ -31,7 +33,15 @@ export const updateUser = async (id, userData) => {
     throw new Error("Usuario no encontrado");
   }
 
-  return await updateUserById(id, userData);
+  // Se separa la contraseña del resto de los datos
+  const { contrasena, ...datos } = userData;
+
+  // Solo si se envió una contraseña nueva, se encripta igual que en el registro
+  if (contrasena) {
+    datos.contrasena = await bcrypt.hash(contrasena, 10);
+  }
+
+  return await updateUserById(id, datos);
 };
 
 // Eliminar usuario (eliminación lógica)

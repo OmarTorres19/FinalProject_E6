@@ -215,6 +215,16 @@ select option:checked{
     margin-top: 22px;
     display: flex;
     gap: var(--gap);
+    align-items: stretch;
+}
+
+.btnContainer > * {
+    flex: 1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 button {
