@@ -78,7 +78,7 @@ function EditUser({ currentUser, onCurrentUserUpdated }) {
 
       const tieneMayuscula = /[A-Z]/.test(passwords.contrasena);
       const tieneMinuscula = /[a-z]/.test(passwords.contrasena);
-      const tieneNumero = /[0-9]/.test(formData.contrasena);
+      const tieneNumero = /[0-9]/.test(passwords.contrasena);
 
       if (!tieneMayuscula || !tieneMinuscula || !tieneNumero) {
         setError("La contraseña debe tener al menos una letra mayúscula,una minúscula y un numero");
