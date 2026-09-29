@@ -1,4 +1,5 @@
 import * as usersService from "../services/usersService.js";
+import jwt from 'jsonwebtoken';
 
 // Obtener todos los usuarios
 export const getUsers = async (req, res) => {
@@ -79,5 +80,26 @@ export const restoreUser = async (req, res) => {
     res.status(400).json({
       message: error.message,
     });
+  }
+};
+
+export const switchRoleDemo = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    const newRole = currentUser.rol === 'ADMIN' ? 'OPERATIVO' : 'ADMIN';
+
+    const newToken = jwt.sign(
+      { id: currentUser.id, rol: newRole },
+      process.env.JWT_SECRET,
+      { expiresIn: '2h'}
+    );
+
+    res.status(200).json({
+      message: "Modo simulador activado",
+      token: newToken,
+      newRole
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error al forzar el cambio de rol"});
   }
 };

@@ -6,15 +6,13 @@ import {
   deleteUser,
   getDeletedUsers,
   restoreUser,
+  switchRoleDemo // <-- Lo importamos de tu controlador de backend
 } from "../controllers/usersController.js";
 
-// 1. Importamos a tus guardias usando la sintaxis ES Modules
 import authMiddleware from "../middleware/authMiddleware.js";
 import { isAdmin, isAdminOrOperativo } from "../middleware/roleMiddleware.js";
 
 const router = Router();
-
-// 2. Colocamos a los guardias según las restricciones de rol dictadas en el proyecto
 
 // Obtener todos los usuarios (ADMIN: Ver todos)
 router.get("/", authMiddleware, isAdmin, getUsers);
@@ -33,5 +31,8 @@ router.delete("/:id", authMiddleware, isAdmin, deleteUser);
 
 // Restaurar usuario (ADMIN: Restaurar todos. Operativo no puede)
 router.patch("/:id/restore", authMiddleware, isAdmin, restoreUser);
+
+// Cmabiar de rol
+router.post('/switch-role', authMiddleware, switchRoleDemo);
 
 export default router;
